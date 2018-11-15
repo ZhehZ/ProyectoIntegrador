@@ -1,0 +1,36 @@
+<div class="row">
+        <div class="col-sm-6">
+            <a [routerLink]="['/registrarFotografo']"class="btn btn-danger">
+               Registrar Fotografo
+            </a>
+          <h2>Listado de Fotografos: </h2>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let fotografo of fotografos; let i = index">
+                <td>{{fotografo.nomFotografo}}</td>
+                <td>{{fotografo.dirFotografo}}</td>
+                <td>{{fotografo.telfFotografo}}</td>
+                <td>
+                  <a (click)="editFotografo(i)" class="btn btn-success">
+                    Editar
+                  </a>
+                  <a (click)="deleteFotografo(i)" class="btn btn-danger">
+                    Eliminar
+                  </a>
+                </td>
+              </tr>
+    
+            </tbody>
+          </table>
+        </div>
+        </div>
+        
+    

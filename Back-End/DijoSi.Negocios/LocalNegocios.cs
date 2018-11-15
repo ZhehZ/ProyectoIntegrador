@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DijoSi.Modelos;
+using DijoSi.Datos;
+
+namespace DijoSi.Negocios
+{
+    public class LocalNegocios
+    {
+        LocalDatos data = new LocalDatos();
+        
+        public List<Local> ListadoLocales()
+        {
+            return data.ListarLocales();
+        }
+
+        public string RegistrarLocales(Local local)
+        {
+            string mensaje = "";
+            try
+            {
+                data.RegistrarLocales(local);
+                mensaje = "Registro exitoso";
+            }
+            catch(Exception ex)
+            {
+                mensaje = "No se pudo registrar el local : " + ex.Message;
+            }
+            return mensaje;
+
+        }
+
+        public string ActualizarLocal(Local local)
+        {
+            string mensaje = "";
+            try
+            {
+                data.ActualizarLocal(local);
+                mensaje = "Registro actualizado";
+            }
+            catch (Exception ex)
+            {
+                mensaje = "No se pudo actualizar el local : " + ex.Message;
+            }
+            return mensaje;
+        }
+
+        public string EliminarLocal(string idLocal)
+        {
+            string mensaje = "";
+            try
+            {
+                data.EliminarLocal(idLocal);
+                mensaje = "Registro eliminado";
+            }
+            catch (Exception ex)
+            {
+                mensaje = "No se pudo eliminar el local : " + ex.Message;
+            }
+            return mensaje;
+        }
+    }
+}
