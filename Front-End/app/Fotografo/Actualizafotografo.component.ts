@@ -6,29 +6,32 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'lista-app',
-    templateUrl: 'app/Fotografo/Registrafografo.component.html'
+    templateUrl: 'app/Fotografo/Actualizafotografo.component.html'
 })
 
-export class RegistrarFotografoComponent {
+export class ActualizarFotografoComponent {
     fotografo : Fotografo = null;
 
     constructor(private _fotografoService : FotografoService, private _router : Router){
         this.fotografo = <Fotografo> {
-            nomFotografo : "",
             telfFotografo : "",
             dirFotografo  :""
         };
+        
     }
 
-    registrar() : void {
+    actualizar() : void {
         
-        this._fotografoService.createFotografo(this.fotografo)
+        this._fotografoService.updateFotografo(this.fotografo)
         .subscribe(fotografo => {
             this.fotografo = fotografo;
             this._router.navigate(['fotografos/']);
         } );  
-       
+        
         
     }
+
+
+
 
 }

@@ -46,5 +46,11 @@ namespace DijoSi.Controllers
             return mensaje;
         }
 
+        [HttpGet]
+        public List<Distrito> ListadoDistritos()
+        {
+            return negocio.ListadoDistritos();
+        }
+
     }
 }

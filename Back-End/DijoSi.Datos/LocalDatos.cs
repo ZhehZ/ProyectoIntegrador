@@ -24,6 +24,7 @@ namespace DijoSi.Datos
             con.Open();
 
             SqlCommand cmd = new SqlCommand("usp_ActualizarLocales", con);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", local.idLocal);
             cmd.Parameters.AddWithValue("@nom", local.nomLocal);
             cmd.Parameters.AddWithValue("@dir", local.dirLocal);
@@ -41,9 +42,10 @@ namespace DijoSi.Datos
                 con.Open();
 
                 SqlCommand cmd = new SqlCommand("usp_RegistrarLocales", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@nom", local.nomLocal);
                 cmd.Parameters.AddWithValue("@dir", local.dirLocal);
-                cmd.Parameters.AddWithValue("@fONo", local.telfLocal);
+                cmd.Parameters.AddWithValue("@fono", local.telfLocal);
                 cmd.Parameters.AddWithValue("@cant", local.cantLocal);
                 cmd.Parameters.AddWithValue("@iddis", local.idDistrito);
                 
@@ -59,6 +61,7 @@ namespace DijoSi.Datos
             con.Open();
 
             SqlCommand cmd = new SqlCommand("usp_EliminarLocales", con);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", idLocal);
             
 
@@ -69,12 +72,12 @@ namespace DijoSi.Datos
 
         public List<Local> ListarLocales()
         {
+            con.Open();
             List<Local> locales = new List<Local>();
             string query = "usp_ListarLocales";
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
 
             if (dr.HasRows)
@@ -100,11 +103,12 @@ namespace DijoSi.Datos
         }
         public List<Distrito> ListarDistritos()
         {
+            con.Open();
             List<Distrito> distritos = new List<Distrito>();
             SqlCommand cmd = new SqlCommand("usp_ListarDistritos", con);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            con.Open();
+            
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {

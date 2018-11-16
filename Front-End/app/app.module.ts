@@ -15,6 +15,10 @@ import {LoginComponent} from './login/login.coponent';
 import { UsuarioService } from './login/usuario.service';
 import {FormsModule} from '@angular/forms';
 import {RegistrarFotografoComponent} from './Fotografo/Registrafotografo.component'
+import {ActualizarFotografoComponent} from './Fotografo/Actualizafotografo.component'
+import {RegistrarRegalofoComponent} from './Regalo/Registrarregalo.component'
+import {RegistrarLocalComponent} from './Local/RegistraLocal.component'
+import {RegistrarBuffetComponent} from './Buffet/RegistrarBuffet.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +28,11 @@ import {RegistrarFotografoComponent} from './Fotografo/Registrafotografo.compone
     ListaBuffetComponent,
     ListaLocalComponent,
     LoginComponent,
-    RegistrarFotografoComponent
+    RegistrarFotografoComponent,
+    ActualizarFotografoComponent,
+    RegistrarRegalofoComponent,
+    RegistrarLocalComponent,
+    RegistrarBuffetComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +45,10 @@ import {RegistrarFotografoComponent} from './Fotografo/Registrafotografo.compone
       { path : 'locales',component : ListaLocalComponent},
       { path : 'login',component : LoginComponent},
       { path : 'registrarFotografo' , component : RegistrarFotografoComponent},
+      { path : 'actualizarFotografo' , component : ActualizarFotografoComponent},
+      { path : 'registrarRegalo' , component : RegistrarRegalofoComponent},
+      { path : 'registrarLocal' , component : RegistrarLocalComponent},
+      { path : 'registrarBuffet' , component : RegistrarBuffetComponent},
     ])
   ],
   providers: [

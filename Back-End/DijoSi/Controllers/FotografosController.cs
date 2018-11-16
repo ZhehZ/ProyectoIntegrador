@@ -29,6 +29,14 @@ namespace DijoSi.Controllers
             return mensaje;
         }
 
+        [HttpGet]
+        public Fotografo ObtenerFotografos(string id)
+        {
+            var lista = fotografoNegocios.ListarFotografos();
+            Fotografo fotografo = lista.FirstOrDefault(x => x.idFotografo == id);
+            return fotografo;
+        }
+
         [HttpPost]
         public string ActualizarFotografos(Fotografo fotografo)
         {
@@ -37,7 +45,7 @@ namespace DijoSi.Controllers
             return mensaje;
         }
 
-        [HttpDelete]
+        [HttpPost]
         public string EliminarFotografos(Fotografo fotografo)
         {
             string mensaje = "";

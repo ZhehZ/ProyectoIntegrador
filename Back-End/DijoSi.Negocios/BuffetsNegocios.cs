@@ -21,5 +21,37 @@ namespace DijoSi.Negocios
         {
             return buffetsDatos.ListarCategoria();
         }
+
+        public string RegistrarBuffets(Buffet buffet)
+        {
+            string mensaje = "";
+            try
+            {
+                mensaje = "Buffet registrado";
+                buffetsDatos.RegistrarBuffets(buffet);
+            }
+            catch (Exception e)
+            {
+                mensaje = e.Message;
+
+            }
+            return mensaje;
+        }
+
+        public string EliminarBuffets(string idBuffet)
+        {
+            string mensaje = "";
+            try
+            {
+                mensaje = "Buffet Eliminado";
+                buffetsDatos.EliminarBuffets(idBuffet);
+            }
+            catch (Exception e)
+            {
+                mensaje = e.Message;
+
+            }
+            return mensaje;
+        }
     }
 }

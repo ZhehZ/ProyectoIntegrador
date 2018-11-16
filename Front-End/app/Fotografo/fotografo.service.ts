@@ -14,6 +14,9 @@ export class FotografoService{
 
     private _getFotografosURL : string = "http://localhost:54116/api/Fotografos/ListarFotografos";
     private _createFotografoURL : string = "http://localhost:54116/api/Fotografos/RegistrarFotografos";
+    private _updateFotografoURL : string = "http://localhost:54116/api/Fotografos/ActualizarFotografos";
+    private _getFotografobyIDURL : string = "http://localhost:54116/api/Fotografos/ObtenerFotografos?id=";
+    private _deleteFotografoURL: string = "http://localhost:54116/api/Fotografos/EliminarFotografos";
     fotografo : Fotografo = null;
 
     constructor(private _http : Http){
@@ -24,12 +27,7 @@ export class FotografoService{
     getFotografos() :  Observable<Fotografo[]> {
         return this._http.get(this._getFotografosURL)
         .map((Response : Response) => <Fotografo[]>Response.json())
-        .catch(this.controlarException);
-    }
-
-    private controlarException(error : Response) {
-        console.log("error",error);
-        return Observable.throw(error.json().error || "Server Error");
+        .catch(this.handleError);
     }
 
     createFotografo(fotografo : Fotografo) : Observable<Fotografo>{
@@ -48,5 +46,35 @@ export class FotografoService{
     private handleError(error:Response){
         return Observable.throw(error.json().error || "server error");
     }
+
+    updateFotografo(fotografo : Fotografo) : Observable<Fotografo>{
+        var body = {
+            idFotografo : fotografo.idFotografo,
+            telfFotografo : fotografo.telfFotografo,
+            dirFotografo : fotografo.dirFotografo
+        }
+        var req = this._http.post(this._updateFotografoURL,body);
+        return req.map((response:Response) => <Fotografo>response.json())
+        .catch(this.handleError);
+    }
+
+    getFotografo(fotografo : Fotografo) : Observable<Fotografo>{
+    
+         let url = this._getFotografobyIDURL+fotografo.idFotografo; 
+         console.log(url)
+         var req = this._http.get(url);
+         return req.map((response:Response) => <Fotografo>response.json()).
+            catch(this.handleError)  
+      }
+
+    deleteFotografo(fotografo : Fotografo) : Observable<Fotografo>{
+        var body = {
+            idFotografo : fotografo.idFotografo
+        }
+        var req = this._http.post(this._deleteFotografoURL,body);
+        return req.map((response:Response) => <Fotografo>response.json())
+        .catch(this.handleError);
+    }
+
 
 }

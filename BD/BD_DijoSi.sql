@@ -284,7 +284,7 @@ AS
 	    ON l.idDistrito = d.idDistrito
 GO
 
-CREATE PROC usp_RegistrarLocales 'Norkys' , 'Caqueta' , '988024112', 50 , 'DIS04'
+CREATE PROC usp_RegistrarLocales
 @nom   VARCHAR(100),
 @dir   VARCHAR(100),
 @fono  VARCHAR(30),

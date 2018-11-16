@@ -51,6 +51,33 @@ namespace DijoSi.Datos
             return buffets;
         }
 
+        public void EliminarBuffets(string idBuffet)
+        {
+            conexion.Open();
+            string query = "usp_EliminarBuffets";
+
+            SqlCommand cmd = new SqlCommand(query, conexion);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@idBuffet", idBuffet);
+            cmd.ExecuteNonQuery();
+            conexion.Close();
+        }
+
+        public void RegistrarBuffets(Buffet buffet)
+        {
+            string query = "usp_RegistrarBuffets";
+            conexion.Open();
+            SqlCommand cmd = new SqlCommand(query, conexion);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@nomprovBuffet", buffet.nomprovBuffet);
+            cmd.Parameters.AddWithValue("@nomBuffet", buffet.nomBuffet);
+            cmd.Parameters.AddWithValue("@desBuffet", buffet.desBuffet);
+            cmd.Parameters.AddWithValue("@preBuffet", buffet.preBuffet);
+            cmd.Parameters.AddWithValue("@idCategoria", buffet.idCategoria);
+            cmd.ExecuteNonQuery();
+            conexion.Close();
+        }
+
         public List<Categoria> ListarCategoria()
         {
             List<Categoria> categorias = null;

@@ -26,5 +26,21 @@ namespace DijoSi.Controllers
         {
             return buffetsNegocios.ListarCategorias();
         }
+
+        [HttpPost]
+        public string RegistrarBuffets(Buffet buffet)
+        {
+            string mensaje = "";
+            mensaje = buffetsNegocios.RegistrarBuffets(buffet);
+            return mensaje;
+        }
+
+        [HttpPost]
+        public string EliminarBuffets(Buffet buffet)
+        {
+            string mensaje = "";
+            mensaje = buffetsNegocios.EliminarBuffets(buffet.idBuffet);
+            return mensaje;
+        }
     }
 }

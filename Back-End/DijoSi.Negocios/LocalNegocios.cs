@@ -62,5 +62,10 @@ namespace DijoSi.Negocios
             }
             return mensaje;
         }
+
+        public List<Distrito> ListadoDistritos()
+        {
+            return data.ListarDistritos();
+        }
     }
 }

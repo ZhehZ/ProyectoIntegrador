@@ -1,6 +1,6 @@
 <div class="row">
         <div class="col-sm-6">
-            <a [routerLink]="['/registrarFotografo']"class="btn btn-danger">
+            <a [routerLink]="['/registrarFotografo']"class="btn btn-success">
                Registrar Fotografo
             </a>
           <h2>Listado de Fotografos: </h2>
@@ -14,15 +14,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let fotografo of fotografos; let i = index">
+              <tr *ngFor="let fotografo of fotografos">
                 <td>{{fotografo.nomFotografo}}</td>
                 <td>{{fotografo.dirFotografo}}</td>
                 <td>{{fotografo.telfFotografo}}</td>
                 <td>
-                  <a (click)="editFotografo(i)" class="btn btn-success">
+                  <a [routerLink]="['/actualizarFotografo']"  class="btn btn-success">
                     Editar
                   </a>
-                  <a (click)="deleteFotografo(i)" class="btn btn-danger">
+                  <a (click)="eliminarFotografo(fotografo)" class="btn btn-danger">
                     Eliminar
                   </a>
                 </td>
@@ -32,5 +32,5 @@
           </table>
         </div>
         </div>
-        
+ 
     

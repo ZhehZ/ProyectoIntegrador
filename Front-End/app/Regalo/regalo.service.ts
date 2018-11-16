@@ -12,6 +12,7 @@ import { error } from "util";
 export class RegaloService{
 
     private _getRegalosURL : string = "http://localhost:54116/api/Regalos/ListarRegalos";
+    private _createRegaloURL : string = "http://localhost:54116/api/Regalos/RegistrarRegalos";
 
     constructor(private _http : Http){
 
@@ -24,6 +25,17 @@ export class RegaloService{
         .map((Response : Response) => <Regalo[]>Response.json())
         .catch(this.controlarException);
     }
+
+    createRegalo(regalo : Regalo) : Observable<Regalo>{
+        var body = {
+            desRegalo : regalo.desRegalo,
+        }
+
+        var req = this._http.post(this._createRegaloURL,body);
+        return req.map((response:Response) => <Regalo>response.json())
+        .catch(this.controlarException);
+
+    } 
 
     private controlarException(error : Response) {
         console.log("error",error);
