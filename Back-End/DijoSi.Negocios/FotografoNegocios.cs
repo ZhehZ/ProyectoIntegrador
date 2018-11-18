@@ -22,7 +22,6 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-                fotografo.ValidacionesRegistrar();
                 mensaje = "Fotografo registrado";
                 fotografoDatos.RegistrarFotografos(fotografo);
             }
@@ -39,7 +38,6 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-                fotografo.ValidacionesActualizar();
                 mensaje = "Fotografo actualizado";
                 fotografoDatos.ActualizarFotografos(fotografo);
             }

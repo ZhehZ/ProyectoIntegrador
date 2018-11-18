@@ -45,11 +45,11 @@ namespace DijoSi.Controllers
             return mensaje;
         }
 
-        [HttpPost]
-        public string EliminarFotografos(Fotografo fotografo)
+        [HttpDelete]
+        public string EliminarFotografos(string id)
         {
             string mensaje = "";
-            mensaje = fotografoNegocios.EliminarFotografos(fotografo.idFotografo);
+            mensaje = fotografoNegocios.EliminarFotografos(id);
             return mensaje;
         }
 

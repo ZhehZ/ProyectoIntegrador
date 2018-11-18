@@ -24,22 +24,6 @@ namespace DijoSi.Modelo
        public System.Guid Codigo        { get; set; }
        public string Reiniciarcontra    { get; set; }
 
-        public void ValidacionesRegistrar()
-        {
-            if (string.IsNullOrEmpty(nomUsuario))
-                throw new Exception("Debe ingresar un Nombre");
-            else if (string.IsNullOrEmpty(apePatUsuario) && string.IsNullOrEmpty(apeMatUsuario))
-                throw new Exception("Debe ingresar su Apellido");
-            else if (string.IsNullOrEmpty(dirUsuario))
-                throw new Exception("Debe ingresar una Direccion");
-            else if (string.IsNullOrEmpty(emailUsuario))
-                throw new Exception("Debe ingresar su Correo");
-            else if (string.IsNullOrEmpty(loginUsuario))
-                throw new Exception("Debe ingresar su Correo");
-            else if (!ConfirmaContraseña.Equals(passUsuario))
-                throw new Exception("Confirme su contraseña");
-        }
-
 
     }
     

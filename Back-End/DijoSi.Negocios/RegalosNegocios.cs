@@ -22,7 +22,6 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-                regalo.Validaciones();
                 mensaje = "Regalo registrado";
                 regalosDatos.RegistrarRegalos(regalo);
             }

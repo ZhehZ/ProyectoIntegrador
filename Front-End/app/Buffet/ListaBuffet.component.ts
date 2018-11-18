@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { flatten } from '@angular/compiler';
 import { Buffet } from "./buffet";
-import {BuffetService} from "./buffet.service"
+import { BuffetService } from "./buffet.service"
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,26 +10,27 @@ import { Router } from '@angular/router';
 })
 
 export class ListaBuffetComponent {
-    buffets : Buffet[] ;
-    buffet : Buffet = null;
+    buffets: Buffet[];
+    buffet: Buffet = null;
 
-    constructor(private _buffetService : BuffetService, private _router : Router){
+    constructor(private _buffetService: BuffetService, private _router: Router) {
         this._buffetService.getBuffets()
-        .subscribe(
+            .subscribe(
             buffetReponse => this.buffets = buffetReponse
-        )
+            )
     }
 
-    eliminarBuffet(buffet : Buffet){
+    eliminarBuffet(buffet: Buffet) {
         var response = confirm("Esta seguro que desea eliminar el registro?")
-        if(response){
+        if (response) {
             this._buffetService.deleteBuffet(buffet)
-            .subscribe(buffet => {
-                this.buffet = buffet
-                this._router.navigate(['buffets/']);
-            } );  
+                .subscribe(buffet => {
+                    this.buffet = buffet
+                    alert("Se Elimino Registro")
+                    this._router.navigate(['buffets/']);
+                });
 
-            
+
         }
     }
 

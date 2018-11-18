@@ -1,4 +1,4 @@
 export interface Distrito {
-    idDistrito   : string;
-    nomDistrito  : string;
+    idDistrito: string;
+    nomDistrito: string;
 }

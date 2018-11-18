@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { flatten } from '@angular/compiler';
 import { Local } from "./local";
-import {LocalService} from "./local.service"
+import { LocalService } from "./local.service"
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,25 +10,26 @@ import { Router } from '@angular/router';
 })
 
 export class ListaLocalComponent {
-    locales : Local[] ;
-    local : Local = null;
+    locales: Local[];
+    local: Local = null;
 
-    constructor(private _localService : LocalService, private _router : Router){
+    constructor(private _localService: LocalService, private _router: Router) {
         this._localService.getLocales()
-        .subscribe(
+            .subscribe(
             localReponse => this.locales = localReponse
-        )
+            )
     }
-    eliminarLocal(local : Local){
+    eliminarLocal(local: Local) {
         var response = confirm("Esta seguro que desea eliminar el registro?")
-        if(response){
+        if (response) {
             this._localService.deleteLocal(local)
-            .subscribe(local => {
-                this.local = local
-                this._router.navigate(['locales/']);
-            } );  
+                .subscribe(local => {
+                    this.local = local
+                    alert("Se elimino Registro")
+                    this._router.navigate(['locales/']);
+                });
 
-            
+
         }
     }
 

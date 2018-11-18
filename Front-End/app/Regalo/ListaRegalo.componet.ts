@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { flatten } from '@angular/compiler';
 import { Regalo } from "./regalo";
-import {RegaloService} from "./regalo.service"
+import { RegaloService } from "./regalo.service"
 
 @Component({
     selector: 'lista-app',
@@ -9,13 +9,13 @@ import {RegaloService} from "./regalo.service"
 })
 
 export class ListaRegaloComponent {
-    regalos : Regalo[] ;
+    regalos: Regalo[];
 
-    constructor(private _regaloService : RegaloService){
+    constructor(private _regaloService: RegaloService) {
         this._regaloService.getRegalos()
-        .subscribe(
+            .subscribe(
             regaloReponse => this.regalos = regaloReponse
-        )
+            )
     }
 
 }

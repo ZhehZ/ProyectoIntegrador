@@ -11,10 +11,6 @@ namespace DijoSi.Modelos
         public string idRegalo  { get; set; }
         public string desRegalo { get; set; }
 
-        public void Validaciones()
-        {
-            if (string.IsNullOrEmpty(desRegalo))
-                throw new Exception("Debe ingresar una Descripcion"); 
-        }
+
     }
 }

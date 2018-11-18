@@ -39,7 +39,6 @@ namespace DijoSi.Negocios
                     usuario.Codigo = Guid.NewGuid();
                     usuario.verificaEmail = false;
                     VerificaviaLink(usuario.emailUsuario, usuario.Codigo.ToString(), "ValidarCuenta");
-                    usuario.ValidacionesRegistrar();
                     mensaje = "Registrado " + usuario.emailUsuario;
                     usuarioDatos.RegistrarUsuarios(usuario);
               /*  }*/
