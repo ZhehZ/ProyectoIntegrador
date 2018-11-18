@@ -9,14 +9,14 @@ using DijoSi.Modelos;
 
 namespace DijoSi.Datos
 {
-    public class LocalDatos
+    public class LocalDatos : Conexion
     {
-        string cadenaConexion = "Server=DESKTOP-RVKA4SI\\ALEX;Database=BD_DijoSI;uid=sa;pwd=sql";
+
         SqlConnection con;
 
         public LocalDatos()
         {
-            con = new SqlConnection(cadenaConexion);
+            con = new SqlConnection(conexionString);
         }
 
         public void ActualizarLocal(Local local)

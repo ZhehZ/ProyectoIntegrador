@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace DijoSi.Datos
 {
-    public class FotografoDatos
+    public class FotografoDatos : Conexion
     {
-        string cadenaConexion = "Server=DESKTOP-RVKA4SI\\ALEX;Database=BD_DijoSI;uid=sa;pwd=sql";
         SqlConnection conexion;
 
         public FotografoDatos()
         {
-            conexion = new SqlConnection(cadenaConexion);
+            conexion = new SqlConnection(conexionString);
         }
 
             public void RegistrarFotografos(Fotografo fotografo)

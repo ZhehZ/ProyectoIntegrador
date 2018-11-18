@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace DijoSi.Datos
 {
-    public class RegalosDatos
+    public class RegalosDatos : Conexion
     {
-        string cadenaConexion = "Server=DESKTOP-RVKA4SI\\ALEX;Database=BD_DijoSI;uid=sa;pwd=sql";
         SqlConnection conexion;
 
         public RegalosDatos()
         {
-            conexion = new SqlConnection(cadenaConexion);
+            conexion = new SqlConnection(conexionString);
         }
 
         public void RegistrarRegalos(Regalo regalo)

@@ -11,7 +11,6 @@ namespace DijoSi.Datos
 {
     public class BuffetsDatos : Conexion
     {
-        //string cadenaConexion = "Server=DESKTOP-RVKA4SI\\ALEX;Database=BD_DijoSI;uid=sa;pwd=sql";
 
         SqlConnection conexion;
 
