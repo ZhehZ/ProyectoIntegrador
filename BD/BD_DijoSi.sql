@@ -107,6 +107,38 @@ CREATE TABLE tb_invitados
 )
 GO
 
+CREATE TABLE tb_reserva
+(
+	idReserva VARCHAR(12) PRIMARY KEY,
+	idLocal VARCHAR(12) REFERENCES tb_local NOT NULL,
+	idBuffet VARCHAR(12) REFERENCES tb_buffet NOT  NULL,
+	idFotografo VARCHAR(12) REFERENCES tb_fotografo NULL,
+	fechaSolicitud DATE,
+)
+GO
+
+CREATE TABLE tb_detalleReserva
+(
+	idReserva VARCHAR(12),
+	idUsuario VARCHAR(12) REFERENCES tb_usuario NOT NULL
+)
+GO
+
+CREATE TABLE tb_horario
+(
+	idLocal VARCHAR(12) REFERENCES tb_local,
+	iniHorario date,
+	finHorario date
+)
+GO
+
+CREATE TABLE tb_Agenda_Fotografo
+(
+	idFotografo VARCHAR(12) REFERENCES tb_fotografo NOT NULL,
+	diaReservado DATE NOT NULL
+)
+GO
+
 --PROCEDIMIENTOS ALMACENADOS
 --DISTRITOS
 CREATE PROC usp_ListarDistritos
@@ -473,4 +505,66 @@ CREATE PROC usp_EliminarInvitados
 @idInvitado      VARCHAR(12)
 AS
 	DELETE FROM tb_invitados WHERE idInvitado = @idInvitado
+GO
+
+-- Transaccional
+CREATE PROCEDURE usp_RegistrarReserva 
+@idusu VARCHAR(12),
+@idlocal VARCHAR(12),
+@idbuffet VARCHAR(12),
+@indifoto BIT,
+@fechaReserva DATE
+AS
+	BEGIN
+		DECLARE @id VARCHAR(12)
+		DECLARE @idExiste INT
+		DECLARE @fechaInicio DATE
+		DECLARE @fechaFin DATE
+		DECLARE @idFotografo VARCHAR(12)
+	SELECT @idExiste = COUNT(idReserva) FROM tb_reserva
+	SELECT @fechaInicio = dbo.usp_calcular_fecha_inicio(@fechaReserva)
+	SELECT @fechaFin = dbo.usp_calcular_fecha_fin(@fechaReserva)
+		IF(@idExiste = 0)
+			BEGIN
+				SET @id = 'RE001'
+			END
+		ELSE
+			BEGIN
+				SELECT @id = LEFT(MAX(idReserva),2)+RIGHT('0000'+CONVERT(VARCHAR(12),RIGHT(MAX(idReserva),3)+1),3) 
+				FROM tb_reserva
+			END
+	     IF(@indifoto = 1)
+			BEGIN
+				SELECT TOP 1 @idFotografo =  idFotografo FROM tb_fotografo WHERE idFotografo NOT IN(SELECT DISTINCT(af.idFotografo) FROM tb_Agenda_Fotografo af WHERE af.idFotografo = idFotografo AND af.diaReservado <> @fechaReserva)
+			END
+		ELSE
+		    BEGIN
+			    SELECT @idFotografo = NULL
+			END
+		 INSERT INTO tb_reserva VALUES(@id,@idlocal,@idbuffet,@idFotografo,@fechaReserva)
+		 INSERT INTO tb_detalleReserva VALUES(@id,@idusu)
+		 IF(@idFotografo IS NOT NULL)
+			BEGIN
+				INSERT INTO tb_Agenda_Fotografo VALUES(@idFotografo,@fechaReserva)
+			END
+		 INSERT INTO tb_horario VALUES(@idlocal,@fechaInicio,@fechaFin)
+	END
+GO
+
+
+CREATE FUNCTION usp_calcular_fecha_inicio(@fecini date)
+RETURNS DATE
+AS
+BEGIN
+	RETURN (select DATEADD(DAY,-1, @fecini))
+END
+GO
+
+
+CREATE FUNCTION usp_calcular_fecha_fin (@fecfin date)
+RETURNS DATE
+AS
+BEGIN
+	RETURN (select DATEADD(DAY,+2, @fecfin))
+END
 GO
