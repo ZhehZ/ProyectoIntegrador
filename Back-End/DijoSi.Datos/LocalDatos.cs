@@ -39,20 +39,20 @@ namespace DijoSi.Datos
 
         public void RegistrarLocales(Local local)
         {
-                con.Open();
+            con.Open();
 
-                SqlCommand cmd = new SqlCommand("usp_RegistrarLocales", con);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@nom", local.nomLocal);
-                cmd.Parameters.AddWithValue("@dir", local.dirLocal);
-                cmd.Parameters.AddWithValue("@fono", local.telfLocal);
-                cmd.Parameters.AddWithValue("@cant", local.cantLocal);
-                cmd.Parameters.AddWithValue("@iddis", local.idDistrito);
-                
-                cmd.ExecuteNonQuery();
-           
-                con.Close(); 
-            
+            SqlCommand cmd = new SqlCommand("usp_RegistrarLocales", con);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@nom", local.nomLocal);
+            cmd.Parameters.AddWithValue("@dir", local.dirLocal);
+            cmd.Parameters.AddWithValue("@fono", local.telfLocal);
+            cmd.Parameters.AddWithValue("@cant", local.cantLocal);
+            cmd.Parameters.AddWithValue("@iddis", local.idDistrito);
+
+            cmd.ExecuteNonQuery();
+
+            con.Close();
+
         }
 
         public void EliminarLocal(string idLocal)
@@ -63,7 +63,7 @@ namespace DijoSi.Datos
             SqlCommand cmd = new SqlCommand("usp_EliminarLocales", con);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", idLocal);
-            
+
 
             cmd.ExecuteNonQuery();
 
@@ -95,7 +95,7 @@ namespace DijoSi.Datos
                     locales.Add(local);
                 }
             }
-            
+
             dr.Close();
             con.Close();
             return locales;
@@ -108,7 +108,7 @@ namespace DijoSi.Datos
             SqlCommand cmd = new SqlCommand("usp_ListarDistritos", con);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            
+
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {

@@ -14,14 +14,18 @@ export class ListaFotografoComponent {
     fotografo: Fotografo = null;
 
     constructor(private _fotografoService: FotografoService, private _router: Router) {
-        this._fotografoService.getFotografos()
-            .subscribe(
-            fotografoReponse => this.fotografos = fotografoReponse
-            )
-        this.fotografo = <Fotografo>{
-            idFotografo: "",
-        };
+    
+    }
 
+    ngOnInit(): void{
+        this.listar();
+    }
+    
+    listar() : void {
+        this._fotografoService.getFotografos()
+        .subscribe(
+        fotografoReponse => this.fotografos = fotografoReponse
+        )
     }
 
     eliminarFotografo(id: string) {
@@ -31,7 +35,8 @@ export class ListaFotografoComponent {
                 .subscribe(fotografo => {
                     this.fotografo = fotografo
                     alert("Se elimino Registro")
-                    this._router.navigate(['fotografos/']);
+                    //this._router.navigate(['fotografos/']);
+                    this.listar()
                 });
 
 

@@ -15,11 +15,6 @@ export class RegistrarLocalComponent {
     distritos: Distrito[]
 
     constructor(private _localService: LocalService, private _router: Router) {
-        this._localService.getDistritos()
-            .subscribe(
-            localReponse => this.distritos = localReponse
-
-            )
         this.local = <Local>{
             nomLocal: "",
             dirLocal: "",
@@ -27,7 +22,18 @@ export class RegistrarLocalComponent {
             cantLocal: 0,
             idDistrito: ""
         };
-        console.log(this.distritos)
+    }
+
+    ngOnInit(): void{
+        this.listarDistritos();
+    }
+
+    listarDistritos() : void{
+        this._localService.getDistritos()
+        .subscribe(
+        localReponse => this.distritos = localReponse
+
+        )
     }
 
     registrar(): void {

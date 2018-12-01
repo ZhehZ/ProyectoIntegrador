@@ -14,20 +14,28 @@ export class ListaBuffetComponent {
     buffet: Buffet = null;
 
     constructor(private _buffetService: BuffetService, private _router: Router) {
-        this._buffetService.getBuffets()
-            .subscribe(
-            buffetReponse => this.buffets = buffetReponse
-            )
     }
 
-    eliminarBuffet(buffet: Buffet) {
+
+    ngOnInit(): void{
+        this.listar();
+    }
+    
+    listar() : void {
+        this._buffetService.getBuffets()
+        .subscribe(
+        buffetReponse => this.buffets = buffetReponse
+        )
+    }
+
+    eliminarBuffet(id: string) {
         var response = confirm("Esta seguro que desea eliminar el registro?")
         if (response) {
-            this._buffetService.deleteBuffet(buffet)
+            this._buffetService.deleteBuffet(id)
                 .subscribe(buffet => {
                     this.buffet = buffet
                     alert("Se Elimino Registro")
-                    this._router.navigate(['buffets/']);
+                    this.listar()
                 });
 
 

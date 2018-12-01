@@ -21,7 +21,7 @@ namespace DijoSi.Negocios
 
         public Usuario Login(string cuenta, string pass)
         {
-            return usuarioDatos.Login(cuenta,pass);
+            return usuarioDatos.Login(cuenta, pass);
         }
 
         public string RegistrarUsuarios(Usuario usuario)
@@ -29,19 +29,19 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-              /*  var Existe = CorreoExistente(usuario.emailUsuario);
-                if (Existe)
-                {
-                    mensaje = "Correo ya Registrado";
-                }
-                else
-                {*/
-                    usuario.Codigo = Guid.NewGuid();
-                    usuario.verificaEmail = false;
-                    VerificaviaLink(usuario.emailUsuario, usuario.Codigo.ToString(), "ValidarCuenta");
-                    mensaje = "Registrado " + usuario.emailUsuario;
-                    usuarioDatos.RegistrarUsuarios(usuario);
-              /*  }*/
+                /*  var Existe = CorreoExistente(usuario.emailUsuario);
+                  if (Existe)
+                  {
+                      mensaje = "Correo ya Registrado";
+                  }
+                  else
+                  {*/
+                usuario.Codigo = Guid.NewGuid();
+                usuario.verificaEmail = false;
+                VerificaviaLink(usuario.emailUsuario, usuario.Codigo.ToString(), "ValidarCuenta");
+                mensaje = "Registrado " + usuario.emailUsuario;
+                usuarioDatos.RegistrarUsuarios(usuario);
+                /*  }*/
             }
             catch (Exception e)
             {
@@ -58,17 +58,17 @@ namespace DijoSi.Negocios
             return emails != null;
         }
 
-        public void VerificaviaLink(string email, string codigo, string correo="")
+        public void VerificaviaLink(string email, string codigo, string correo = "")
         {
             string asunto = "";
             string cuerpo = "";
-            
-            
-          //var zelda = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url);
+
+
+            //var zelda = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, url);
             if (correo == "ValidarCuenta")
             {
                 var url = "http://localhost:54116/api/Usuario/ValidarCuenta?codigo=" + codigo;
-                cuerpo = "Tu cuenta ha sido Existosamente Registrada . Click en el enlace para la verificacion "+
+                cuerpo = "Tu cuenta ha sido Existosamente Registrada . Click en el enlace para la verificacion " +
                          url;
 
                 asunto = "Tu Cuenta ha sido Registrada";
@@ -98,18 +98,18 @@ namespace DijoSi.Negocios
                 Body = cuerpo,
             })
 
-            try
-            {
-                smtp.Send(mensaje);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("No se pudo enviar ", e.InnerException);
-            }
-            finally
-            {
-                smtp.Dispose();
-            }
+                try
+                {
+                    smtp.Send(mensaje);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("No se pudo enviar ", e.InnerException);
+                }
+                finally
+                {
+                    smtp.Dispose();
+                }
 
 
         }

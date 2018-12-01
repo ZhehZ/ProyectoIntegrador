@@ -23,10 +23,10 @@
           <td>{{buffet.preBuffet}}</td>
           <td>{{buffet.nomCategoria}}</td>
           <td>
-            <a (click)="editFotografo(i)" class="btn btn-success">
+            <a [routerLink]="['/actualizarBuffet', buffet.idBuffet]" class="btn btn-success">
               Editar
             </a>
-            <a (click)="eliminarBuffet(buffet)" class="btn btn-danger">
+            <a (click)="eliminarBuffet(buffet.idBuffet)" class="btn btn-danger">
               Eliminar
             </a>
           </td>

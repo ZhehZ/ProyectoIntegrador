@@ -20,6 +20,10 @@ import { RegistrarRegaloComponent } from './Regalo/Registrarregalo.component'
 import { RegistrarLocalComponent } from './Local/RegistraLocal.component'
 import { RegistrarBuffetComponent } from './Buffet/RegistrarBuffet.component'
 import { RegistrarUsuarioComponent } from './login/RegistraUsuario.component'
+/*import { ListaUsuarioComponent } from './login/ListaUsuario.component';*/
+import { ActualizarbuffetComponent } from './Buffet/Actualizarbuffet.component';
+/*import { ActualizarUsuarioComponent } from './login/Actualizarusuario.component';*/
+import { ActualizarLocalComponent } from './Local/Actualizalocal.component';
 
 @NgModule({
   declarations: [
@@ -28,13 +32,17 @@ import { RegistrarUsuarioComponent } from './login/RegistraUsuario.component'
     ListaRegaloComponent,
     ListaBuffetComponent,
     ListaLocalComponent,
+    /*ListaUsuarioComponent,*/
     LoginComponent,
     RegistrarFotografoComponent,
     ActualizarFotografoComponent,
     RegistrarRegaloComponent,
     RegistrarLocalComponent,
+    ActualizarbuffetComponent,
     RegistrarBuffetComponent,
-    RegistrarUsuarioComponent
+    RegistrarUsuarioComponent,
+    /*ActualizarUsuarioComponent,*/
+    ActualizarLocalComponent
   ],
   imports: [
     BrowserModule,
@@ -45,13 +53,17 @@ import { RegistrarUsuarioComponent } from './login/RegistraUsuario.component'
       { path: 'regalos', component: ListaRegaloComponent },
       { path: 'buffets', component: ListaBuffetComponent },
       { path: 'locales', component: ListaLocalComponent },
+      /*{ path: 'usuarios', component: ListaUsuarioComponent },*/
       { path: 'login', component: LoginComponent },
       { path: 'registrarFotografo', component: RegistrarFotografoComponent },
       { path: 'actualizarFotografo/:id', component: ActualizarFotografoComponent },
       { path: 'registrarRegalo', component: RegistrarRegaloComponent },
       { path: 'registrarLocal', component: RegistrarLocalComponent },
       { path: 'registrarBuffet', component: RegistrarBuffetComponent },
+      { path: 'actualizarBuffet/:id', component: ActualizarbuffetComponent },
+      /*{ path: 'actualizarUsuario/:id', component: ActualizarUsuarioComponent },*/
       { path: 'registrarse', component: RegistrarUsuarioComponent },
+      { path: 'actualizarLocal/:id', component: ActualizarLocalComponent}
     ])
   ],
   providers: [

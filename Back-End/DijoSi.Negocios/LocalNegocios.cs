@@ -11,7 +11,7 @@ namespace DijoSi.Negocios
     public class LocalNegocios
     {
         LocalDatos data = new LocalDatos();
-        
+
         public List<Local> ListadoLocales()
         {
             return data.ListarLocales();
@@ -25,7 +25,7 @@ namespace DijoSi.Negocios
                 data.RegistrarLocales(local);
                 mensaje = "Registro exitoso";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 mensaje = "No se pudo registrar el local : " + ex.Message;
             }

@@ -14,19 +14,28 @@ export class ListaLocalComponent {
     local: Local = null;
 
     constructor(private _localService: LocalService, private _router: Router) {
-        this._localService.getLocales()
-            .subscribe(
-            localReponse => this.locales = localReponse
-            )
+    
     }
-    eliminarLocal(local: Local) {
+
+    ngOnInit(): void{
+        this.listar();
+    }
+    
+    listar() : void {
+        this._localService.getLocales()
+        .subscribe(
+        localReponse => this.locales = localReponse
+        )
+    }
+    
+    eliminarLocal(id: string) {
         var response = confirm("Esta seguro que desea eliminar el registro?")
         if (response) {
-            this._localService.deleteLocal(local)
+            this._localService.deleteLocal(id)
                 .subscribe(local => {
                     this.local = local
                     alert("Se elimino Registro")
-                    this._router.navigate(['locales/']);
+                    this.listar()
                 });
 
 

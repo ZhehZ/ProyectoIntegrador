@@ -53,7 +53,7 @@ export class FotografoService {
             telfFotografo: fotografo.telfFotografo,
             dirFotografo: fotografo.dirFotografo
         }
-        var req = this._http.post(this._updateFotografoURL, body);
+        var req = this._http.put(this._updateFotografoURL, body);
         return req.map((response: Response) => <Fotografo>response.json())
             .catch(this.handleError);
     }
@@ -61,7 +61,7 @@ export class FotografoService {
     getFotografo(id: string): Observable<Fotografo> {
 
         let url = this._getFotografobyIDURL + id;
-        console.log(url)
+        //console.log(url)
         var req = this._http.get(url);
         return req.map((response: Response) => <Fotografo>response.json()).
             catch(this.handleError)
@@ -69,7 +69,6 @@ export class FotografoService {
 
     deleteFotografo(id: string): Observable<Fotografo> {
         var url = this._deleteFotografoURL + id
-        console.log(url)
         var req = this._http.delete(url);
         return req.map((response: Response) => <Fotografo>response.json()).
             catch(this.handleError);

@@ -33,16 +33,16 @@ namespace DijoSi.Datos
                 while (rd.Read())
                 {
                     Usuario usuario = new Usuario();
-                    usuario.idUsuario	  = rd["idUsuario"].ToString();
-                    usuario.nomUsuario    = rd["nomUsuario"].ToString();
+                    usuario.idUsuario = rd["idUsuario"].ToString();
+                    usuario.nomUsuario = rd["nomUsuario"].ToString();
                     usuario.apePatUsuario = rd["apePatUsuario"].ToString();
                     usuario.apeMatUsuario = rd["apeMatUsuario"].ToString();
-                    usuario.dniUsuario	  = rd["dniUsuario"].ToString();
-                    usuario.telfUsuario	  = rd["telfUsuario"].ToString();
-                    usuario.dirUsuario	  = rd["dirUsuario"].ToString();
-                    usuario.emailUsuario  = rd["emailUsuario"].ToString();
-                    usuario.loginUsuario  = rd["loginUsuario"].ToString();
-                    usuario.Codigo        = new Guid(rd["Codigo"].ToString());
+                    usuario.dniUsuario = rd["dniUsuario"].ToString();
+                    usuario.telfUsuario = rd["telfUsuario"].ToString();
+                    usuario.dirUsuario = rd["dirUsuario"].ToString();
+                    usuario.emailUsuario = rd["emailUsuario"].ToString();
+                    usuario.loginUsuario = rd["loginUsuario"].ToString();
+                    usuario.Codigo = new Guid(rd["Codigo"].ToString());
                     usuarios.Add(usuario);
                 }
             }
@@ -52,7 +52,7 @@ namespace DijoSi.Datos
             return usuarios;
         }
 
-        public Usuario Login(string cuenta,string pass)
+        public Usuario Login(string cuenta, string pass)
         {
             Usuario login = null;
             string query = "usp_Login";
@@ -92,20 +92,20 @@ namespace DijoSi.Datos
 
             SqlCommand cmd = new SqlCommand(query, conexion);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@dniUsuario"    , usuario.dniUsuario);
-            cmd.Parameters.AddWithValue("@nomUsuario"    , usuario.nomUsuario);
-            cmd.Parameters.AddWithValue("@apePatUsuario" , usuario.apePatUsuario);
-            cmd.Parameters.AddWithValue("@apeMatUsuario" , usuario.apeMatUsuario);
-            cmd.Parameters.AddWithValue("@telfUsuario"   , usuario.telfUsuario);
-            cmd.Parameters.AddWithValue("@dirUsuario"    , usuario.dirUsuario);
-            cmd.Parameters.AddWithValue("@emailUsuario"  , usuario.emailUsuario);
-            cmd.Parameters.AddWithValue("@loginUsuario"  , usuario.loginUsuario);
-            cmd.Parameters.AddWithValue("@passUsuario"   , usuario.passUsuario);
-            cmd.Parameters.AddWithValue("@verificaEmail" , usuario.verificaEmail);
-            cmd.Parameters.AddWithValue("@Codigo"        , usuario.Codigo);
+            cmd.Parameters.AddWithValue("@dniUsuario", usuario.dniUsuario);
+            cmd.Parameters.AddWithValue("@nomUsuario", usuario.nomUsuario);
+            cmd.Parameters.AddWithValue("@apePatUsuario", usuario.apePatUsuario);
+            cmd.Parameters.AddWithValue("@apeMatUsuario", usuario.apeMatUsuario);
+            cmd.Parameters.AddWithValue("@telfUsuario", usuario.telfUsuario);
+            cmd.Parameters.AddWithValue("@dirUsuario", usuario.dirUsuario);
+            cmd.Parameters.AddWithValue("@emailUsuario", usuario.emailUsuario);
+            cmd.Parameters.AddWithValue("@loginUsuario", usuario.loginUsuario);
+            cmd.Parameters.AddWithValue("@passUsuario", usuario.passUsuario);
+            cmd.Parameters.AddWithValue("@verificaEmail", usuario.verificaEmail);
+            cmd.Parameters.AddWithValue("@Codigo", usuario.Codigo);
             cmd.ExecuteNonQuery();
             conexion.Close();
-            
+
         }
 
         public void ActivarCuenta(Usuario usuario)

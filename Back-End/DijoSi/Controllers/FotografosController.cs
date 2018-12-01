@@ -37,7 +37,7 @@ namespace DijoSi.Controllers
             return fotografo;
         }
 
-        [HttpPost]
+        [HttpPut]
         public string ActualizarFotografos(Fotografo fotografo)
         {
             string mensaje = "";

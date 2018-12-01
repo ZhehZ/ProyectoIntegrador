@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { flatten } from '@angular/compiler';
 import { Fotografo } from "./fotografo";
 import { FotografoService } from "./fotografo.service"
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+
 
 @Component({
     selector: 'lista-app',
@@ -11,17 +13,26 @@ import { Router } from '@angular/router';
 
 export class ActualizarFotografoComponent {
     fotografo: Fotografo = null;
+    private sub: Subscription
+    id : string
 
-    constructor(private _fotografoService: FotografoService, private _router: Router) {
-        this.fotografo = <Fotografo>{
-            telfFotografo: "",
-            dirFotografo: ""
-        };
-        this._fotografoService.getFotografo("F003")
+    constructor(private _fotografoService: FotografoService, 
+                private _router: Router,     
+                private _route: ActivatedRoute) {   
+    }
+
+    ngOnInit(){
+        this._route.params.subscribe( params => {
+            this.id = params['id'];
+            this.obtener(this.id)
+        });
+    }
+
+    obtener(id: string) {
+        this._fotografoService.getFotografo(id)
             .subscribe(fotografo => {
                 this.fotografo = fotografo
             })
-
     }
 
     actualizar(): void {

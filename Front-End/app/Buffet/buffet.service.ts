@@ -15,13 +15,21 @@ export class BuffetService {
     private _getBuffetsURL: string = "http://localhost:54116/api/Buffets/ListarBuffets";
     private _getCategoriasURL: string = "http://localhost:54116/api/Buffets/ListarCategorias";
     private _createBuffetURL: string = "http://localhost:54116/api/Buffets/RegistrarBuffets";
-    private _deleteBuffetURL: string = "http://localhost:54116/api/Buffets/EliminarBuffets";
-
+    private _getBuffetbyIDURL: string = "http://localhost:54116/api/Buffets/ObtenerBuffets?id=";
+    private _deleteBuffetURL: string = "http://localhost:54116/api/Buffets/EliminarBuffets?id=";
+    private _updateBuffetURL: string = "http://localhost:54116/api/Buffets/ActualizarBuffets";
+    
+    
     constructor(private _http: Http) {
 
     }
 
     buffets: Buffet[];
+
+
+    private handleError(error: Response) {
+        return Observable.throw(error.json().error || "server error");
+    }
 
     getBuffets(): Observable<Buffet[]> {
         return this._http.get(this._getBuffetsURL)
@@ -35,13 +43,13 @@ export class BuffetService {
             .catch(this.controlarException);
     }
 
-    deleteBuffet(buffet: Buffet): Observable<Buffet> {
-        var body = {
-            idBuffet: buffet.idBuffet
-        }
-        var req = this._http.post(this._deleteBuffetURL, body);
-        return req.map((response: Response) => <Buffet>response.json())
-            .catch(this.controlarException);
+    deleteBuffet(id: string): Observable<Buffet> {
+       
+        var url = this._deleteBuffetURL + id
+        //console.log(url)
+        var req = this._http.delete(url);
+        return req.map((response: Response) => <Buffet>response.json()).
+            catch(this.handleError);       
     }
 
     createBuffet(buffet: Buffet): Observable<Buffet> {
@@ -62,4 +70,25 @@ export class BuffetService {
     private controlarException(error: Response) {
         return Observable.throw(error.json().error || "Server Error");
     }
+
+
+    updateBuffet(buffet: Buffet): Observable<Buffet>{
+        var body = {
+            idBuffet: buffet.idBuffet,
+            preBuffet: buffet.preBuffet
+        }
+        var req = this._http.put(this._updateBuffetURL, body);
+        return req.map((response: Response) => <Buffet>response.json())
+            .catch(this.handleError);
+
+    }
+    getBuffet(id: string): Observable<Buffet> {
+
+        let url = this._getBuffetbyIDURL + id;
+        var req = this._http.get(url);
+        return req.map((response: Response) => <Buffet>response.json()).
+            catch(this.handleError)
+    }
+
+
 }

@@ -35,12 +35,20 @@ namespace DijoSi.Controllers
             return mensaje;
         }
 
-        [HttpPost]
-        public string EliminarBuffets(Buffet buffet)
+        [HttpDelete]
+        public string EliminarBuffets(string id)
         {
             string mensaje = "";
-            mensaje = buffetsNegocios.EliminarBuffets(buffet.idBuffet);
+            mensaje = buffetsNegocios.EliminarBuffets(id);
             return mensaje;
+        }
+
+        [HttpGet]
+        public Buffet ObtenerBuffets(string id)
+        {
+            var lista = buffetsNegocios.ListarBuffets();
+            Buffet buffet = lista.FirstOrDefault(x => x.idBuffet == id);
+            return buffet;
         }
     }
 }
