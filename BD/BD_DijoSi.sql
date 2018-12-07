@@ -1,8 +1,15 @@
+USE master
+IF EXISTS(select * from sys.databases where name='BD_DijoSI')
+DROP DATABASE BD_DijoSI
+
 CREATE DATABASE BD_DijoSI
+GO
+
+USE BD_DijoSI
+GO
 
 SET DATEFORMAT dmy;
-  
-USE BD_DijoSI
+GO  
 
 CREATE TABLE tb_usuario
 (
@@ -42,6 +49,7 @@ CREATE TABLE tb_local
 	nomLocal   VARCHAR(100)NOT NULL,
 	dirLocal   VARCHAR(100) NOT NULL,
 	telfLocal  VARCHAR(30) NOT NULL,
+	foto       VARCHAR(3999) NOT NULL,
 	cantLocal  INT,
 	idDistrito VARCHAR(12) REFERENCES tb_distrito
 )
@@ -56,12 +64,12 @@ CREATE TABLE tb_admin
 )
 GO
 
-
 CREATE TABLE tb_fotografo
 (
 	idFotografo    VARCHAR(12) PRIMARY KEY,
 	nomFotografo   VARCHAR(100) NOT NULL,
 	dirFotografo   VARCHAR(250) NOT NULL,
+	foto           VARCHAR(3999) NOT NULL,
 	telfFotografo  CHAR(30) NOT NULL
 )
 GO
@@ -77,6 +85,7 @@ INSERT INTO tb_categoria VALUES('CAT01','Mexicana')
 INSERT INTO tb_categoria VALUES('CAT02','Peruana')
 INSERT INTO tb_categoria VALUES('CAT03','Italiana')
 INSERT INTO tb_categoria VALUES('CAT04','Oriental')
+GO
 
 CREATE TABLE tb_buffet
 (
@@ -85,14 +94,30 @@ CREATE TABLE tb_buffet
 	nomBuffet      VARCHAR(100) NOT NULL,
 	desBuffet      VARCHAR(500) NOT NULL,
 	preBuffet      DECIMAL NOT NULL,
+	foto           VARCHAR(3999) NOT NULL,
 	idCategoria    VARCHAR(12) REFERENCES tb_categoria
 )
 GO
 
+CREATE TABLE tb_tipoRegalo
+(
+	idTipo  VARCHAR(12) PRIMARY KEY NOT NULL,
+	desTipo VARCHAR(60) NOT NULL
+)
+GO
+
+INSERT INTO tb_tipoRegalo VALUES('TR001','Utencilios de Cocina')
+INSERT INTO tb_tipoRegalo VALUES('TR002','Linea Blanca')
+INSERT INTO tb_tipoRegalo VALUES('TR003','Electrodomesticos')
+INSERT INTO tb_tipoRegalo VALUES('TR004','Tecnologia')
+GO
+
 CREATE TABLE tb_regalo
 (
-	idRegalo   VARCHAR(12) PRIMARY KEY,
-	desRegalo  VARCHAR(12),
+	idRegalo	 VARCHAR(12),
+	nombreRegalo VARCHAR(60),
+	foto         VARCHAR(3999),
+	idTipo		 VARCHAR(12) REFERENCES tb_tipoRegalo
 )
 GO
 
@@ -109,10 +134,11 @@ GO
 
 CREATE TABLE tb_reserva
 (
-	idReserva VARCHAR(12) PRIMARY KEY,
-	idLocal VARCHAR(12) REFERENCES tb_local NOT NULL,
-	idBuffet VARCHAR(12) REFERENCES tb_buffet NOT  NULL,
-	idFotografo VARCHAR(12) REFERENCES tb_fotografo NULL,
+	idReserva      VARCHAR(12) PRIMARY KEY,
+	idLocal        VARCHAR(12) NOT NULL,
+	idBuffet       VARCHAR(12) NOT NULL,
+	idFotografo    VARCHAR(12) NULL,
+	estado         BIT,
 	fechaSolicitud DATE,
 )
 GO
@@ -127,8 +153,9 @@ GO
 CREATE TABLE tb_horario
 (
 	idLocal VARCHAR(12) REFERENCES tb_local,
-	iniHorario date,
-	finHorario date
+	iniHorario DATE,
+	mainHorario DATE,
+	finHorario DATE
 )
 GO
 
@@ -136,6 +163,13 @@ CREATE TABLE tb_Agenda_Fotografo
 (
 	idFotografo VARCHAR(12) REFERENCES tb_fotografo NOT NULL,
 	diaReservado DATE NOT NULL
+)
+GO
+
+CREATE TABLE tb_carritoRegalo
+(
+	idRegalo  INT PRIMARY KEY,
+	idUsuario VARCHAR(12) REFERENCES tb_usuario
 )
 GO
 
@@ -154,6 +188,14 @@ AS
 	SELECT idCategoria,
 		   nomCategoria
 	  FROM tb_categoria
+GO
+
+--TIPO DE REGALOS
+CREATE PROC usp_ListarTipoRegalos
+AS
+	SELECT idTipo,
+		   desTipo
+      FROM tb_tipoRegalo
 GO
 
 --USUARIOS
@@ -177,6 +219,7 @@ CREATE PROC usp_Login
 @pass  VARCHAR(200)
 AS
 	SELECT idUsuario,
+		   nomUsuario,
 		   loginUsuario,
 		   passUsuario,
 		   verificaEmail
@@ -224,7 +267,6 @@ AS
 	 WHERE idUsuario = @id
 GO
 
-
 CREATE PROC usp_EliminarUsuarios 
 @id VARCHAR(12)
 AS
@@ -232,7 +274,7 @@ AS
 GO
 
 --SERVICIOS
---1 Buffets
+--1 BUFFETS
 CREATE PROC usp_ListarBuffets
 AS
 	SELECT idBuffet,
@@ -240,6 +282,7 @@ AS
 		   nomBuffet ,
 		   desBuffet ,
 		   preBuffet ,
+		   foto,
 		   c.idCategoria,
 		   c.nomCategoria   
      FROM tb_buffet buff 
@@ -252,7 +295,8 @@ CREATE PROC usp_RegistrarBuffets
 @nomBuffet     VARCHAR(100),
 @desBuffet     VARCHAR(100),
 @preBuffet     DECIMAL,
-@idCategoria   VARCHAR(12)
+@idCategoria   VARCHAR(12),
+@foto          VARCHAR(3999)
 AS
 	BEGIN
 		DECLARE @id VARCHAR(12)
@@ -267,38 +311,23 @@ AS
 				SELECT @id = LEFT(MAX(idBuffet),1)+RIGHT('0000'+CONVERT(VARCHAR(12),RIGHT(MAX(idBuffet),3)+1),3) 
 				FROM tb_buffet
 			END
-	INSERT INTO tb_buffet VALUES(@id, @nomprovBuffet, @nomBuffet, @desBuffet, @preBuffet, @idCategoria)
+	INSERT INTO tb_buffet VALUES(@id, @nomprovBuffet, @nomBuffet, @desBuffet, @preBuffet,@foto, @idCategoria)
 	END
 GO
 
 CREATE PROC usp_ActualizarBuffets
 @idBuffet      VARCHAR(12),
-@nomprovBuffet VARCHAR(100),
-@nomBuffet     VARCHAR(100),
-@desBuffet     VARCHAR(100),
 @preBuffet     DECIMAL
 AS
 	UPDATE tb_buffet 
-	   SET nomprovBuffet = @nomprovBuffet ,
-		   nomBuffet     = @nomBuffet,
-		   desBuffet     = @desBuffet,  
-	       preBuffet     = @preBuffet   
-	 WHERE idBuffet      = @idBuffet  
+	   SET preBuffet = @preBuffet   
+	 WHERE idBuffet  = @idBuffet  
 GO
 
 CREATE PROC usp_EliminarBuffets
 @idBuffet VARCHAR(12)
 AS
 	DELETE FROM tb_buffet WHERE idBuffet = @idBuffet
-GO
-
-CREATE PROC usp_ListarCategoriaxId
-@id varchar(12)
-AS
-	SELECT idCategoria,
-		   nomCategoria
-	 FROM tb_categoria
-    WHERE idCategoria = @id
 GO
 
 --2 LOCALES
@@ -309,6 +338,7 @@ AS
 		   dirLocal, 
 		   telfLocal,
 		   cantLocal,
+		   foto,
 		   d.idDistrito,
 		   d.nomDistrito
       FROM tb_local l 
@@ -321,7 +351,8 @@ CREATE PROC usp_RegistrarLocales
 @dir   VARCHAR(100),
 @fono  VARCHAR(30),
 @cant  INT,
-@iddis VARCHAR(12)
+@iddis VARCHAR(12),
+@foto  VARCHAR(3999)
 AS
 	BEGIN
 		DECLARE @id VARCHAR(12)
@@ -336,7 +367,7 @@ AS
 				SELECT @id = LEFT(MAX(idLocal),1)+RIGHT('0000'+CONVERT(VARCHAR(12),RIGHT(MAX(idLocal),3)+1),3) 
 				FROM tb_local
 			END
-	INSERT INTO tb_local VALUES(@id, @nom, @dir, @fono, @cant, @iddis)
+	INSERT INTO tb_local VALUES(@id, @nom, @dir, @fono, @foto, @cant, @iddis)
 	END
 GO
 
@@ -346,14 +377,16 @@ CREATE PROC usp_ActualizarLocales
 @dir   VARCHAR(100),
 @fONo  VARCHAR(30),
 @cant   INT,
-@iddis VARCHAR(12)
+@iddis VARCHAR(12),
+@foto  VARCHAR(3999)
 AS
 	UPDATE tb_local 
 	   SET nomLocal   = @nom, 
 	       dirLocal   = @dir, 
 		   telfLocal  = @fONo,
 		   cantLocal  = @cant,
-		   idDistrito = @iddis 
+		   idDistrito = @iddis,
+		   foto       = @foto
      WHERE idLocal    = @id
 GO
 
@@ -366,13 +399,20 @@ GO
 --3 REGALOS
 CREATE PROC usp_ListarRegalos
 AS
-	SELECT idRegalo ,
-		   desRegalo
-	  FROM tb_regalo
+	SELECT idRegalo,
+		   r.nombreRegalo,
+		   foto,
+		   tr.idTipo,
+		   tr.desTipo
+	  FROM tb_regalo r
+	  JOIN tb_tipoRegalo tr
+	    ON r.idTipo = tr.idTipo
 GO
 
 CREATE PROC usp_RegistrarRegalos
-@desRegalo  VARCHAR(100)
+@desRegalo  VARCHAR(100),
+@foto       VARCHAR(3999),
+@idtipo     VARCHAR(12)
 AS
 	BEGIN
 		DECLARE @id VARCHAR(12)
@@ -387,14 +427,8 @@ AS
 				SELECT @id = LEFT(MAX(idRegalo),1)+RIGHT('0000'+CONVERT(VARCHAR(12),RIGHT(MAX(idRegalo),3)+1),3) 
 				FROM tb_regalo
 			END
-	INSERT INTO tb_regalo VALUES(@id, @desRegalo)
+	INSERT INTO tb_regalo VALUES(@id, @desRegalo, @foto, @idtipo)
 	END
-GO
-
-CREATE PROC usp_EliminarRegalo
-@idRegalo VARCHAR(12)
-AS
-	DELETE FROM tb_regalo WHERE idRegalo = @idRegalo
 GO
 
 --4 FOTOGRAFOS
@@ -403,14 +437,16 @@ AS
 	SELECT idFotografo,
 		   nomFotografo,
 		   telfFotografo,
-		   dirFotografo
+		   dirFotografo,
+		   foto
 	  FROM tb_fotografo
 GO
 
 CREATE PROC usp_RegistrarFotografo
 @NomFotografo  VARCHAR(100),
 @telfFotografo CHAR(30),
-@dirFotografo  VARCHAR(250)
+@dirFotografo  VARCHAR(250),
+@foto          VARCHAR(3999)
 AS
 	BEGIN
 		DECLARE @id VARCHAR(12)
@@ -425,18 +461,20 @@ AS
 				SELECT @id = LEFT(MAX(idFotografo),1)+RIGHT('0000'+CONVERT(VARCHAR(12),RIGHT(MAX(idFotografo),3)+1),3) 
 				FROM tb_fotografo
 			END
-	INSERT INTO tb_fotografo VALUES(@id, @NomFotografo, @dirFotografo, @telfFotografo)
+	INSERT INTO tb_fotografo VALUES(@id, @NomFotografo, @dirFotografo, @foto, @telfFotografo)
 	END
 GO
 
 CREATE PROC usp_ActualizarFotografo
 @idFotografo   VARCHAR(12),
 @telfFotografo CHAR(12),
-@dirFotografo  VARCHAR(250)
+@dirFotografo  VARCHAR(250),
+@foto          VARCHAR(3999)
 AS
 	UPDATE tb_fotografo
 	   SET telfFotografo = @telfFotografo,
-	       dirFotografo  = @dirFotografo
+	       dirFotografo  = @dirFotografo,
+		   foto          = @foto
 	 WHERE idFotografo   = @idFotografo
 GO
 
@@ -507,52 +545,103 @@ AS
 	DELETE FROM tb_invitados WHERE idInvitado = @idInvitado
 GO
 
--- Transaccional
-CREATE PROCEDURE usp_RegistrarReserva 
-@idusu VARCHAR(12),
-@idlocal VARCHAR(12),
-@idbuffet VARCHAR(12),
-@indifoto BIT,
-@fechaReserva DATE
+-- RESERVA
+CREATE PROC usp_RegistrarReserva
+@id          VARCHAR(12),
+@idLocal	 VARCHAR(12),
+@idBuffet    VARCHAR(12),
+@selecciona  BIT,
+@estado      BIT,
+@fecha       DATE
 AS
 	BEGIN
-		DECLARE @id VARCHAR(12)
-		DECLARE @idExiste INT
-		DECLARE @fechaInicio DATE
-		DECLARE @fechaFin DATE
-		DECLARE @idFotografo VARCHAR(12)
-	SELECT @idExiste = COUNT(idReserva) FROM tb_reserva
-	SELECT @fechaInicio = dbo.usp_calcular_fecha_inicio(@fechaReserva)
-	SELECT @fechaFin = dbo.usp_calcular_fecha_fin(@fechaReserva)
-		IF(@idExiste = 0)
-			BEGIN
-				SET @id = 'RE001'
-			END
-		ELSE
-			BEGIN
-				SELECT @id = LEFT(MAX(idReserva),2)+RIGHT('0000'+CONVERT(VARCHAR(12),RIGHT(MAX(idReserva),3)+1),3) 
-				FROM tb_reserva
-			END
-	     IF(@indifoto = 1)
-			BEGIN
-				SELECT TOP 1 @idFotografo =  idFotografo FROM tb_fotografo WHERE idFotografo NOT IN(SELECT DISTINCT(af.idFotografo) FROM tb_Agenda_Fotografo af WHERE af.idFotografo = idFotografo AND af.diaReservado <> @fechaReserva)
-			END
-		ELSE
-		    BEGIN
-			    SELECT @idFotografo = NULL
-			END
-		 INSERT INTO tb_reserva VALUES(@id,@idlocal,@idbuffet,@idFotografo,@fechaReserva)
-		 INSERT INTO tb_detalleReserva VALUES(@id,@idusu)
-		 IF(@idFotografo IS NOT NULL)
-			BEGIN
-				INSERT INTO tb_Agenda_Fotografo VALUES(@idFotografo,@fechaReserva)
-			END
-		 INSERT INTO tb_horario VALUES(@idlocal,@fechaInicio,@fechaFin)
+	DECLARE @idfotografo VARCHAR(12)
+	IF(@selecciona = 1)
+		BEGIN
+			SELECT TOP 1 @idfotografo =  f.idFotografo FROM tb_fotografo f LEFT JOIN tb_Agenda_Fotografo af ON f.idFotografo = af.idFotografo WHERE af.diaReservado <> @fecha
+		                                 OR af.diaReservado IS NULL
+			INSERT INTO tb_Agenda_Fotografo VALUES (@idFotografo, @fecha)
+		END
+	ELSE
+		BEGIN
+			SELECT @idfotografo = NULL
+		END
+	INSERT INTO tb_reserva (idReserva, idLocal, idBuffet, idFotografo, estado , fechaSolicitud) 
+	     VALUES (@id, @idLocal, @idBuffet, @idfotografo, @estado, @fecha)
 	END
 GO
 
+CREATE PROC usp_DetalleReserva
+@id    VARCHAR(12),
+@idUsu VARCHAR(12)
+AS
+	BEGIN
+	INSERT INTO tb_detalleReserva (idUsuario, idReserva)
+		VALUES (@idUsu,@id)
+	END
+GO
 
-CREATE FUNCTION usp_calcular_fecha_inicio(@fecini date)
+CREATE PROC usp_RegistrarReservaLocal
+@idLocal VARCHAR(12),
+@fechaReserva DATE
+AS
+	BEGIN
+	    DECLARE @fechaInicio DATE
+		DECLARE @fechaFin DATE
+		DECLARE @idFotografo VARCHAR(12)
+		SELECT @fechaInicio = dbo.usp_calcular_fecha_inicio(@fechaReserva)
+		SELECT @fechaFin = dbo.usp_calcular_fecha_fin(@fechaReserva)
+	INSERT INTO tb_horario (idLocal , iniHorario , mainHorario ,finHorario)
+		VALUES(@idLocal, @fechaInicio, @fechaReserva ,@fechaFin)
+	END
+GO
+
+CREATE PROC usp_CancelarReserva
+@id          VARCHAR(12)
+AS 
+	BEGIN
+		DELETE
+		  FROM tb_reserva 
+		 WHERE idReserva = @id
+	END
+GO
+
+CREATE PROC usp_EliminarDetalle
+@id          VARCHAR(12)
+AS
+	BEGIN
+		DELETE
+		  FROM tb_detalleReserva
+		 WHERE idReserva = @id
+	END
+GO
+
+CREATE PROC usp_EliminarHorarios
+@idLocal VARCHAR(12),
+@fecha  DATE
+AS
+	BEGIN
+		DELETE
+		  FROM tb_horario
+		 WHERE idLocal = @idLocal
+		   AND mainHorario = @fecha
+	END
+GO
+
+CREATE PROC usp_EliminarAgenda
+@idFotografo VARCHAR(12),
+@fecha DATE
+AS
+	BEGIN
+		DELETE
+		  FROM tb_Agenda_Fotografo
+		 WHERE idFotografo = @idFotografo
+		   AND diaReservado = @fecha
+	END
+GO
+
+--FUNCIONES
+CREATE FUNCTION usp_calcular_fecha_inicio(@fecini DATE)
 RETURNS DATE
 AS
 BEGIN
@@ -560,11 +649,47 @@ BEGIN
 END
 GO
 
-
-CREATE FUNCTION usp_calcular_fecha_fin (@fecfin date)
+CREATE FUNCTION usp_calcular_fecha_fin (@fecfin DATE)
 RETURNS DATE
 AS
 BEGIN
 	RETURN (select DATEADD(DAY,+2, @fecfin))
 END
 GO
+
+CREATE PROC usp_ListarFotografosDisponibles
+@fecha DATE
+AS
+	BEGIN
+		SELECT f.idFotografo 
+		  FROM tb_fotografo f
+	 LEFT JOIN tb_Agenda_Fotografo af 
+	    	ON f.idFotografo = af.idFotografo
+		WHERE af.diaReservado <> @fecha
+		OR af.diaReservado IS NULL
+	END
+GO
+
+CREATE PROC usp_GenerarCodigo
+AS	
+	BEGIN
+		SELECT LEFT(MAX(idReserva),2)+RIGHT('0000'+CONVERT(VARCHAR(12),RIGHT(MAX(idReserva),3)+1),3) 'CODIGO' 
+				FROM tb_reserva
+	END
+GO
+
+CREATE PROC usp_ElegirRegalo
+@usuario VARCHAR(12),
+@regalo  VARCHAR(12)
+AS
+	BEGIN
+		INSERT INTO tb_carritoRegalo(idUsuario,idRegalo)
+		     VALUES (@usuario,@regalo)
+	END
+GO
+
+
+
+
+
+

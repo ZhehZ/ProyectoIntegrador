@@ -14,16 +14,22 @@ export class ActualizarLocalComponent {
     local: Local = null;
     private sub: Subscription
     distritos: Distrito[]
-    id: string
+    id: String
 
     constructor(private _localService: LocalService, private _router: Router, private _route: ActivatedRoute) {
-            this._localService.getDistritos()
+        this._localService.getDistritos()
             .subscribe(
-            localReponse => this.distritos = localReponse
-
+                localReponse => this.distritos = localReponse
             )
+        this.local = <Local>{
+            nomLocal: "",
+            dirLocal: "",
+            telfLocal: "",
+            cantLocal: 0,
+            idDistrito: "",
+            foto: ""
+        };
     }
-
 
     ngOnInit() {
         this._route.params.subscribe(params => {
@@ -32,13 +38,12 @@ export class ActualizarLocalComponent {
         });
     }
 
-    obtener(id: string) {
+    obtener(id: String) {
         this._localService.getLocal(id)
             .subscribe(local => {
                 this.local = local
             })
     }
-
 
     actualizar(): void {
 
@@ -47,9 +52,6 @@ export class ActualizarLocalComponent {
                 this.local = local;
                 this._router.navigate(['locales/']);
             });
-
-
-
     }
 
 

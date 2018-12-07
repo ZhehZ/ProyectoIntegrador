@@ -15,5 +15,6 @@ namespace DijoSi.Modelos
         public decimal preBuffet       { get; set; }
         public string  idCategoria     { get; set; }
         public string  nomCategoria    { get; set; }
+        public string  foto            { get; set; }
     }
 }

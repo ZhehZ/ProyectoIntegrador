@@ -29,19 +29,19 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-                /*  var Existe = CorreoExistente(usuario.emailUsuario);
+                var Existe = CorreoExistente(usuario.emailUsuario);
                   if (Existe)
                   {
                       mensaje = "Correo ya Registrado";
                   }
                   else
-                  {*/
-                usuario.Codigo = Guid.NewGuid();
-                usuario.verificaEmail = false;
-                VerificaviaLink(usuario.emailUsuario, usuario.Codigo.ToString(), "ValidarCuenta");
-                mensaje = "Registrado " + usuario.emailUsuario;
-                usuarioDatos.RegistrarUsuarios(usuario);
-                /*  }*/
+                  {
+                    usuario.Codigo = Guid.NewGuid();
+                    usuario.verificaEmail = false;
+                    VerificaviaLink(usuario.emailUsuario, usuario.Codigo.ToString(), "ValidarCuenta");
+                    mensaje = "Registrado " + usuario.emailUsuario;
+                    usuarioDatos.RegistrarUsuarios(usuario);
+                  }
             }
             catch (Exception e)
             {
@@ -54,8 +54,22 @@ namespace DijoSi.Negocios
         public bool CorreoExistente(string email)
         {
             var emails = usuarioDatos.ListarUsuarios();
-            Usuario usuario = emails.Where(a => a.emailUsuario == email).FirstOrDefault();
-            return emails != null;
+            if (emails == null)
+            {
+                return false;
+            }
+            else
+            {
+                Usuario usuario = emails.Where(a => a.emailUsuario == email).FirstOrDefault();
+                if (usuario != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         public void VerificaviaLink(string email, string codigo, string correo = "")

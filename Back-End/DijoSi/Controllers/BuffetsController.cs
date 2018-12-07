@@ -50,5 +50,13 @@ namespace DijoSi.Controllers
             Buffet buffet = lista.FirstOrDefault(x => x.idBuffet == id);
             return buffet;
         }
+
+        [HttpPut]
+        public string ActualizarBuffets(Buffet buffet)
+        {
+            string mensaje = "";
+            mensaje = buffetsNegocios.ActualizarBuffets(buffet);
+            return mensaje;
+        }
     }
 }

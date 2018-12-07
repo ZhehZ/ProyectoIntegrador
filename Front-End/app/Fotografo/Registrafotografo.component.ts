@@ -17,7 +17,8 @@ export class RegistrarFotografoComponent {
         this.fotografo = <Fotografo>{
             nomFotografo: "",
             telfFotografo: "",
-            dirFotografo: ""
+            dirFotografo: "",
+            foto: ""
         };
     }
 
@@ -30,6 +31,9 @@ export class RegistrarFotografoComponent {
         }
         else if (this.fotografo.dirFotografo == "") {
             alert("Ingrese Direccion")
+        }
+        else if (this.fotografo.foto == "") {
+            alert("Ingrese Foto")
         }
         else {
             this._fotografoService.createFotografo(this.fotografo)

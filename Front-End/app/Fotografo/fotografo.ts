@@ -3,4 +3,5 @@ export interface Fotografo {
     nomFotografo: string;
     telfFotografo: string;
     dirFotografo: string;
+    foto: string;
 }

@@ -24,6 +24,8 @@ import { RegistrarUsuarioComponent } from './login/RegistraUsuario.component'
 import { ActualizarbuffetComponent } from './Buffet/Actualizarbuffet.component';
 /*import { ActualizarUsuarioComponent } from './login/Actualizarusuario.component';*/
 import { ActualizarLocalComponent } from './Local/Actualizalocal.component';
+import {RegistrarReservafoComponent} from './Reserva/reserva.component';
+import { ReservaService } from './Reserva/reserva.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { ActualizarLocalComponent } from './Local/Actualizalocal.component';
     RegistrarBuffetComponent,
     RegistrarUsuarioComponent,
     /*ActualizarUsuarioComponent,*/
-    ActualizarLocalComponent
+    ActualizarLocalComponent,
+    RegistrarReservafoComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { ActualizarLocalComponent } from './Local/Actualizalocal.component';
       { path: 'actualizarBuffet/:id', component: ActualizarbuffetComponent },
       /*{ path: 'actualizarUsuario/:id', component: ActualizarUsuarioComponent },*/
       { path: 'registrarse', component: RegistrarUsuarioComponent },
-      { path: 'actualizarLocal/:id', component: ActualizarLocalComponent}
+      { path: 'actualizarLocal/:id', component: ActualizarLocalComponent},
+      { path: 'reserva', component:RegistrarReservafoComponent}
     ])
   ],
   providers: [
@@ -71,7 +75,8 @@ import { ActualizarLocalComponent } from './Local/Actualizalocal.component';
     RegaloService,
     BuffetService,
     LocalService,
-    UsuarioService
+    UsuarioService,
+    ReservaService
   ],
   bootstrap: [AppComponent]
 })

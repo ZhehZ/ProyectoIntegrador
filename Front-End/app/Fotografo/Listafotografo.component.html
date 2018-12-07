@@ -1,5 +1,21 @@
 <div class="row">
   <div class="col-sm-6">
+
+    <div class="form-group">
+      <label for="prov" class="control-label col-sm-2">
+        ¿Desea contratar un fotografo?
+      </label>
+      <div class="col-sm-5">
+        <select id="distrito" name="distritoLocal" [(ngModel)]="reserva.Selecciona" class="form-control input-sm">
+          <option value="true">--Si--</option>
+          <option value="false">--No--</option>
+        </select>
+      </div>
+      <a (click)="SeleccionarEleccion(reserva.Selecciona)" class="btn btn-success">
+          Siguiente
+        </a>
+    </div>
+
     <a [routerLink]="['/registrarFotografo']" class="btn btn-success">
       Registrar Fotografo
     </a>
@@ -7,14 +23,16 @@
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th>Foto</th>
           <th>Nombre</th>
-          <th>Telefono</th>
           <th>Direccion</th>
+          <th>Telefono</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let fotografo of fotografos">
+          <td><img class="card-img-top" src="{{fotografo.foto}}" alt="Card image cap"></td>
           <td>{{fotografo.nomFotografo}}</td>
           <td>{{fotografo.dirFotografo}}</td>
           <td>{{fotografo.telfFotografo}}</td>

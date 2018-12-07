@@ -1,4 +1,15 @@
 <div class="row">
+
+  <div class="form-group">
+    <label for="des" class="control-label col-sm-6">
+      Seleccionar Fecha:
+    </label>
+    <div class="col-sm-2">
+      <input type="date" class="form-control" id="des" name="fotografoTelefono" [(ngModel)]="reserva.fechaReserva"
+        placeholder="ingrese un telefono">
+    </div>
+  </div>
+
   <div class="col-sm-6">
     <a [routerLink]="['/registrarLocal']" class="btn btn-success">
       Registrar Local
@@ -7,6 +18,7 @@
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th>Foto</th>
           <th>Nombre del Local</th>
           <th>Direccion del Local</th>
           <th>telefono del Local</th>
@@ -17,6 +29,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let local of locales">
+          <td><img class="card-img-top" src="{{local.foto}}" alt="Card image cap"></td>
           <td>{{local.nomLocal}}</td>
           <td>{{local.dirLocal}}</td>
           <td>{{local.telfLocal}}</td>
@@ -28,6 +41,9 @@
             </a>
             <a (click)="eliminarLocal(local.idLocal)" class="btn btn-danger">
               Eliminar
+            </a>
+            <a (click)="SeleccionarLocal(local.idLocal,reserva.fechaReserva)" class="btn btn-success">
+              Seleccionar
             </a>
           </td>
         </tr>

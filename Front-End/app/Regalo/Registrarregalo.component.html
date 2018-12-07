@@ -1,6 +1,7 @@
 <div class="col-sm-4" [hidden]="esconder">
   <h2>Registrar Regalos:</h2>
   <form class="form-horizontal" novalidate>
+
     <div class="form-group">
       <label for="prov" class="control-label col-sm-2">
         Regalo:
@@ -10,6 +11,28 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="prov" class="control-label col-sm-2">
+        Tipo Regalo:
+      </label>
+      <div class="col-sm-5">
+        <select id="tipoRegalo" name="tipoRegalo" [(ngModel)]="regalo.idTipo" class="form-control input-sm">
+          <option value="-1">--Seleccione Tipo de Regalo--</option>
+          <option *ngFor="let tipoRegalo of tipos" [value]="tipoRegalo.idTipo">
+            {{tipoRegalo.desTipo}}
+          </option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="prov" class="control-label col-sm-2">
+        Regalo:
+      </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="prov" name="regalofoto" [(ngModel)]="regalo.foto" placeholder="Ingrese una imagen">
+      </div>
+    </div>
 
     <div class="form-group">
       <div class="col-sm-10 col-sm-offset-2">

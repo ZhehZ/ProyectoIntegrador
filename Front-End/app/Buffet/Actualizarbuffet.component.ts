@@ -12,14 +12,17 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class ActualizarbuffetComponent {
     buffet: Buffet = null;
     private sub: Subscription
-    id: string
+    id: String
 
 
     constructor(private _buffetService: BuffetService,
         private _router: Router,
-        private _route: ActivatedRoute) { }
-
-
+        private _route: ActivatedRoute) {
+        this.buffet = <Buffet>{
+            nomBuffet: "",
+            preBuffet: 0.0
+        };
+    }
 
     ngOnInit() {
         this._route.params.subscribe(params => {
@@ -28,7 +31,7 @@ export class ActualizarbuffetComponent {
         });
     }
 
-    obtener(id: string) {
+    obtener(id: String) {
         this._buffetService.getBuffet(id)
             .subscribe(buffet => {
                 this.buffet = buffet

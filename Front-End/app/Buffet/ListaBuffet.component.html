@@ -7,6 +7,7 @@
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th>Foto</th>
           <th>Proveedor</th>
           <th>Nombre del Platillo</th>
           <th>Descripcion del Platillo</th>
@@ -17,6 +18,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let buffet of buffets">
+          <td><img class="card-img-top" src="{{buffet.foto}}" alt="Card image cap"></td>
           <td>{{buffet.nomprovBuffet}}</td>
           <td>{{buffet.nomBuffet}}</td>
           <td>{{buffet.desBuffet}}</td>
@@ -29,9 +31,11 @@
             <a (click)="eliminarBuffet(buffet.idBuffet)" class="btn btn-danger">
               Eliminar
             </a>
+            <a (click)="SeleccionarBuffet(buffet.idBuffet)" class="btn btn-success">
+              Seleccionar
+            </a>
           </td>
         </tr>
-
       </tbody>
     </table>
   </div>

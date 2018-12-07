@@ -14,21 +14,27 @@ import { Subscription } from 'rxjs/Subscription';
 export class ActualizarFotografoComponent {
     fotografo: Fotografo = null;
     private sub: Subscription
-    id : string
+    id: String
 
-    constructor(private _fotografoService: FotografoService, 
-                private _router: Router,     
-                private _route: ActivatedRoute) {   
+    constructor(private _fotografoService: FotografoService,
+        private _router: Router,
+        private _route: ActivatedRoute) {
+        this.fotografo = <Fotografo>{
+            nomFotografo: "",
+            telfFotografo: "",
+            dirFotografo: "",
+            foto: "",
+        };
     }
 
-    ngOnInit(){
-        this._route.params.subscribe( params => {
+    ngOnInit() {
+        this._route.params.subscribe(params => {
             this.id = params['id'];
             this.obtener(this.id)
         });
     }
 
-    obtener(id: string) {
+    obtener(id: String) {
         this._fotografoService.getFotografo(id)
             .subscribe(fotografo => {
                 this.fotografo = fotografo

@@ -22,8 +22,8 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-                mensaje = "Regalo registrado";
                 regalosDatos.RegistrarRegalos(regalo);
+                mensaje = "Regalo registrado";
             }
             catch (Exception e)
             {
@@ -31,6 +31,11 @@ namespace DijoSi.Negocios
 
             }
             return mensaje;
+        }
+
+        public List<TipoRegalo> ListarTipoRegalos()
+        {
+            return regalosDatos.ListarTipoRegalo();
         }
     }
 }

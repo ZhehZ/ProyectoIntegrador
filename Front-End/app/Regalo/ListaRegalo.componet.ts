@@ -14,7 +14,7 @@ export class ListaRegaloComponent {
     constructor(private _regaloService: RegaloService) {
         this._regaloService.getRegalos()
             .subscribe(
-            regaloReponse => this.regalos = regaloReponse
+                regaloReponse => this.regalos = regaloReponse
             )
     }
 

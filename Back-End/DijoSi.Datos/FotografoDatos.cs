@@ -27,6 +27,7 @@ namespace DijoSi.Datos
             cmd.Parameters.AddWithValue("@NomFotografo", fotografo.nomFotografo);
             cmd.Parameters.AddWithValue("@telfFotografo", fotografo.telfFotografo);
             cmd.Parameters.AddWithValue("@dirFotografo", fotografo.dirFotografo);
+            cmd.Parameters.AddWithValue("@foto", fotografo.foto);
             cmd.ExecuteNonQuery();
             conexion.Close();
         }
@@ -53,6 +54,7 @@ namespace DijoSi.Datos
             cmd.Parameters.AddWithValue("@idFotografo", fotografo.idFotografo);
             cmd.Parameters.AddWithValue("@telfFotografo", fotografo.telfFotografo);
             cmd.Parameters.AddWithValue("@dirFotografo", fotografo.dirFotografo);
+            cmd.Parameters.AddWithValue("@foto", fotografo.foto);
             cmd.ExecuteNonQuery();
             conexion.Close();
         }
@@ -73,10 +75,11 @@ namespace DijoSi.Datos
                 while (rd.Read())
                 {
                     Fotografo fotografo = new Fotografo();
-                    fotografo.idFotografo = rd["idFotografo"].ToString();
-                    fotografo.nomFotografo = rd["nomFotografo"].ToString();
+                    fotografo.idFotografo   = rd["idFotografo"].ToString();
+                    fotografo.nomFotografo  = rd["nomFotografo"].ToString();
                     fotografo.telfFotografo = rd["telfFotografo"].ToString();
-                    fotografo.dirFotografo = rd["dirFotografo"].ToString();
+                    fotografo.dirFotografo  = rd["dirFotografo"].ToString();
+                    fotografo.foto          = rd["foto"].ToString();
                     fotografos.Add(fotografo);
                 }
             }

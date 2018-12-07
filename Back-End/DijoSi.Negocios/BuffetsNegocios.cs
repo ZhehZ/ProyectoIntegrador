@@ -26,9 +26,9 @@ namespace DijoSi.Negocios
         {
             string mensaje = "";
             try
-            {
-                mensaje = "Buffet registrado";
+            { 
                 buffetsDatos.RegistrarBuffets(buffet);
+                mensaje = "Buffet registrado";
             }
             catch (Exception e)
             {
@@ -42,9 +42,25 @@ namespace DijoSi.Negocios
         {
             string mensaje = "";
             try
-            {
-                mensaje = "Buffet Eliminado";
+            { 
                 buffetsDatos.EliminarBuffets(idBuffet);
+                mensaje = "Buffet Eliminado";
+            }
+            catch (Exception e)
+            {
+                mensaje = e.Message;
+
+            }
+            return mensaje;
+        }
+
+        public string ActualizarBuffets(Buffet buffet)
+        {
+            string mensaje = "";
+            try
+            {
+                buffetsDatos.ActualizarBuffets(buffet);
+                mensaje = "Buffet Actualizado";
             }
             catch (Exception e)
             {

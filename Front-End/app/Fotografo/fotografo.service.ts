@@ -7,6 +7,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import { error } from "util";
 import { Router } from "@angular/router/src/router";
+import { BehaviorSubject } from "rxjs/BehaviorSubject"
 
 
 @Injectable()
@@ -24,6 +25,13 @@ export class FotografoService {
 
     fotografos: Fotografo[];
 
+    private check = new BehaviorSubject(new Boolean);
+    currentCheck = this.check.asObservable();
+
+    obtenerCheck(check: boolean) {
+        this.check.next(check);
+    }
+
     getFotografos(): Observable<Fotografo[]> {
         return this._http.get(this._getFotografosURL)
             .map((Response: Response) => <Fotografo[]>Response.json())
@@ -34,7 +42,8 @@ export class FotografoService {
         var body = {
             NomFotografo: fotografo.nomFotografo,
             telfFotografo: fotografo.telfFotografo,
-            dirFotografo: fotografo.dirFotografo
+            dirFotografo: fotografo.dirFotografo,
+            foto: fotografo.foto
         }
 
         var req = this._http.post(this._createFotografoURL, body);
@@ -51,23 +60,23 @@ export class FotografoService {
         var body = {
             idFotografo: fotografo.idFotografo,
             telfFotografo: fotografo.telfFotografo,
-            dirFotografo: fotografo.dirFotografo
+            dirFotografo: fotografo.dirFotografo,
+            foto: fotografo.foto
         }
         var req = this._http.put(this._updateFotografoURL, body);
         return req.map((response: Response) => <Fotografo>response.json())
             .catch(this.handleError);
     }
 
-    getFotografo(id: string): Observable<Fotografo> {
+    getFotografo(id: String): Observable<Fotografo> {
 
         let url = this._getFotografobyIDURL + id;
-        //console.log(url)
         var req = this._http.get(url);
         return req.map((response: Response) => <Fotografo>response.json()).
             catch(this.handleError)
     }
 
-    deleteFotografo(id: string): Observable<Fotografo> {
+    deleteFotografo(id: String): Observable<Fotografo> {
         var url = this._deleteFotografoURL + id
         var req = this._http.delete(url);
         return req.map((response: Response) => <Fotografo>response.json()).

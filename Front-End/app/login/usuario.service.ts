@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Http } from "@angular/http"
 import { Response } from "@angular/http/src/static_response";
 import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs/BehaviorSubject"
 
 @Injectable()
 export class UsuarioService {
@@ -12,6 +13,22 @@ export class UsuarioService {
 
     constructor(private _http: Http) {
 
+    }
+
+
+    private nombreUsuario = new BehaviorSubject(new String);
+    currentMessage = this.nombreUsuario.asObservable();
+
+    changeMessage(message: String) {
+        this.nombreUsuario.next(message);
+    }
+
+
+    private idUsuario = new BehaviorSubject(new String);
+    currentId = this.idUsuario.asObservable();
+
+    obtenerId(id: String) {
+        this.idUsuario.next(id);
     }
 
     login(usuario: Usuario): Observable<Usuario> {

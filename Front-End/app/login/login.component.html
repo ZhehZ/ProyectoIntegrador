@@ -8,6 +8,7 @@
                 <img src="app/assets/images/logo.jpg" width="25px" />
             </div>
         </div>
+
         <div class="row col-sm-12">
             <div class="col-sm-2">
                 <label>Usuario</label>
@@ -16,6 +17,7 @@
                 <input type="text" class="form-control" id="txtUsuario" placeholder="Usuario" [(ngModel)]="usuario.loginUsuario" />
             </div>
         </div>
+
         <div class="row col-sm-12">
             <div class="col-sm-2">
                 <label>Password</label>
@@ -24,11 +26,13 @@
                 <input type="text" class="form-control" id="txtContrasena" placeholder="Contrasena" [(ngModel)]="usuario.passUsuario" />
             </div>
         </div>
+
         <div class="row col-sm-12">
             <div class="col-sm-8">
                 <button (click)="Ingresar()" class="btn btn-primary">Ingresar</button>
                 <button (click)="Borrar()" class="btn btn-primary">Borrar</button>
             </div>
         </div>
+
     </div>
 </div>

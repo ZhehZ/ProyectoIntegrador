@@ -8,10 +8,11 @@ namespace DijoSi.Modelos
 {
     public class Fotografo
     {
-        public string idFotografo { get; set; }
-        public string nomFotografo { get; set; }
+        public string idFotografo   { get; set; }
+        public string nomFotografo  { get; set; }
         public string telfFotografo { get; set; }
-        public string dirFotografo { get; set; }
+        public string dirFotografo  { get; set; }
+        public string foto          { get; set; }
 
     }
 }

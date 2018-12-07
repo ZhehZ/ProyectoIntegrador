@@ -1,5 +1,4 @@
-﻿
-using DijoSi.Modelos;
+﻿using DijoSi.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -35,13 +34,14 @@ namespace DijoSi.Datos
                 while (rd.Read())
                 {
                     Buffet buffet = new Buffet();
-                    buffet.idBuffet = rd["idBuffet"].ToString();
+                    buffet.idBuffet      = rd["idBuffet"].ToString();
                     buffet.nomprovBuffet = rd["nomprovBuffet"].ToString();
-                    buffet.nomBuffet = rd["nomBuffet"].ToString();
-                    buffet.desBuffet = rd["desBuffet"].ToString();
-                    buffet.preBuffet = (decimal)rd["preBuffet"];
-                    buffet.idCategoria = rd["idCategoria"].ToString();
-                    buffet.nomCategoria = rd["nomCategoria"].ToString();
+                    buffet.nomBuffet     = rd["nomBuffet"].ToString();
+                    buffet.desBuffet     = rd["desBuffet"].ToString();
+                    buffet.preBuffet     = (decimal)rd["preBuffet"];
+                    buffet.foto          = rd["foto"].ToString();
+                    buffet.idCategoria   = rd["idCategoria"].ToString();
+                    buffet.nomCategoria  = rd["nomCategoria"].ToString();
                     buffets.Add(buffet);
                 }
             }
@@ -49,6 +49,18 @@ namespace DijoSi.Datos
             conexion.Close();
 
             return buffets;
+        }
+
+        public void ActualizarBuffets(Buffet buffet)
+        {
+            string query = "usp_ActualizarBuffets";
+            conexion.Open();
+            SqlCommand cmd = new SqlCommand(query, conexion);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@preBuffet", buffet.preBuffet);
+            cmd.Parameters.AddWithValue("@idBuffet", buffet.idBuffet);
+            cmd.ExecuteNonQuery();
+            conexion.Close();
         }
 
         public void EliminarBuffets(string idBuffet)
@@ -70,10 +82,11 @@ namespace DijoSi.Datos
             SqlCommand cmd = new SqlCommand(query, conexion);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@nomprovBuffet", buffet.nomprovBuffet);
-            cmd.Parameters.AddWithValue("@nomBuffet", buffet.nomBuffet);
-            cmd.Parameters.AddWithValue("@desBuffet", buffet.desBuffet);
-            cmd.Parameters.AddWithValue("@preBuffet", buffet.preBuffet);
-            cmd.Parameters.AddWithValue("@idCategoria", buffet.idCategoria);
+            cmd.Parameters.AddWithValue("@nomBuffet",     buffet.nomBuffet);
+            cmd.Parameters.AddWithValue("@desBuffet",     buffet.desBuffet);
+            cmd.Parameters.AddWithValue("@preBuffet",     buffet.preBuffet);
+            cmd.Parameters.AddWithValue("@foto",          buffet.foto);
+            cmd.Parameters.AddWithValue("@idCategoria",   buffet.idCategoria);
             cmd.ExecuteNonQuery();
             conexion.Close();
         }
@@ -81,9 +94,10 @@ namespace DijoSi.Datos
         public List<Categoria> ListarCategoria()
         {
             List<Categoria> categorias = null;
-            string query = "select * from tb_categoria";
+            string query = "usp_ListarCategorias";
 
             SqlCommand cmd = new SqlCommand(query, conexion);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
             conexion.Open();
             SqlDataReader rd = cmd.ExecuteReader();
 

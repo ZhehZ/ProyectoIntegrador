@@ -22,6 +22,12 @@ namespace DijoSi.Controllers
         }
 
         [HttpGet]
+        public List<TipoRegalo> ListarTiposRegalos()
+        {
+            return regalosNegocios.ListarTipoRegalos();
+        }
+
+        [HttpGet]
         public Regalo ListarRegalosById(string id)
         {
             var lista = regalosNegocios.ListarRegalos();

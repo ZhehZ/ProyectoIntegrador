@@ -3,6 +3,7 @@ import { flatten } from '@angular/compiler';
 import { Fotografo } from "./fotografo";
 import { FotografoService } from "./fotografo.service"
 import { Router } from '@angular/router'
+import { Reserva } from '../Reserva/reserva';
 
 @Component({
     selector: 'lista-app',
@@ -12,23 +13,26 @@ import { Router } from '@angular/router'
 export class ListaFotografoComponent {
     fotografos: Fotografo[];
     fotografo: Fotografo = null;
+    reserva : Reserva = null;
 
     constructor(private _fotografoService: FotografoService, private _router: Router) {
-    
+        this.reserva = <Reserva>{
+            Selecciona: false
+        };
     }
 
-    ngOnInit(): void{
+    ngOnInit(): void {
         this.listar();
     }
-    
-    listar() : void {
+
+    listar(): void {
         this._fotografoService.getFotografos()
-        .subscribe(
-        fotografoReponse => this.fotografos = fotografoReponse
-        )
+            .subscribe(
+                fotografoReponse => this.fotografos = fotografoReponse
+            )
     }
 
-    eliminarFotografo(id: string) {
+    eliminarFotografo(id: String) {
         var response = confirm("Esta seguro que desea eliminar el registro?")
         if (response) {
             this._fotografoService.deleteFotografo(id)
@@ -41,6 +45,11 @@ export class ListaFotografoComponent {
 
 
         }
+    }
+
+    SeleccionarEleccion(respuesta : boolean){
+        this._fotografoService.obtenerCheck(respuesta);
+        this._router.navigate(['reserva/']);
     }
 
 

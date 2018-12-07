@@ -7,6 +7,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import { error } from "util";
 import { Categoria } from "./Categoria";
+import { BehaviorSubject } from "rxjs/BehaviorSubject"
 
 
 @Injectable()
@@ -18,10 +19,17 @@ export class BuffetService {
     private _getBuffetbyIDURL: string = "http://localhost:54116/api/Buffets/ObtenerBuffets?id=";
     private _deleteBuffetURL: string = "http://localhost:54116/api/Buffets/EliminarBuffets?id=";
     private _updateBuffetURL: string = "http://localhost:54116/api/Buffets/ActualizarBuffets";
-    
-    
+
+
     constructor(private _http: Http) {
 
+    }
+
+    private idBuffet = new BehaviorSubject(new String);
+    currentId = this.idBuffet.asObservable();
+
+    obtenerId(id: String) {
+        this.idBuffet.next(id);
     }
 
     buffets: Buffet[];
@@ -43,13 +51,12 @@ export class BuffetService {
             .catch(this.controlarException);
     }
 
-    deleteBuffet(id: string): Observable<Buffet> {
-       
+    deleteBuffet(id: String): Observable<Buffet> {
+
         var url = this._deleteBuffetURL + id
-        //console.log(url)
         var req = this._http.delete(url);
         return req.map((response: Response) => <Buffet>response.json()).
-            catch(this.handleError);       
+            catch(this.handleError);
     }
 
     createBuffet(buffet: Buffet): Observable<Buffet> {
@@ -58,7 +65,8 @@ export class BuffetService {
             nomBuffet: buffet.nomBuffet,
             desBuffet: buffet.desBuffet,
             preBuffet: buffet.preBuffet,
-            idCategoria: buffet.idCategoria
+            idCategoria: buffet.idCategoria,
+            foto: buffet.foto
         }
 
         var req = this._http.post(this._createBuffetURL, body);
@@ -72,7 +80,7 @@ export class BuffetService {
     }
 
 
-    updateBuffet(buffet: Buffet): Observable<Buffet>{
+    updateBuffet(buffet: Buffet): Observable<Buffet> {
         var body = {
             idBuffet: buffet.idBuffet,
             preBuffet: buffet.preBuffet
@@ -82,13 +90,10 @@ export class BuffetService {
             .catch(this.handleError);
 
     }
-    getBuffet(id: string): Observable<Buffet> {
-
+    getBuffet(id: String): Observable<Buffet> {
         let url = this._getBuffetbyIDURL + id;
         var req = this._http.get(url);
         return req.map((response: Response) => <Buffet>response.json()).
             catch(this.handleError)
     }
-
-
 }

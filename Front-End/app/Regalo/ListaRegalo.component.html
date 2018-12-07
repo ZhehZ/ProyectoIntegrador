@@ -7,12 +7,22 @@
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th>Imagen</th>
+          <th>Categoria</th>
           <th>Nombre</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let regalo of regalos">
+          <td><img class="card-img-top" src="{{regalo.foto}}" alt="Card image cap"></td>
+          <td>{{regalo.desTipo}}</td>
           <td>{{regalo.desRegalo}}</td>
+          <td>
+          <a (click)="SeleccionarLocal(local.idLocal,reserva.fechaReserva)" class="btn btn-success">
+            Seleccionar
+          </a>
+        </td>
         </tr>
       </tbody>
     </table>

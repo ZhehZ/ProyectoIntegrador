@@ -6,4 +6,5 @@ export interface Local {
     cantLocal: number;
     idDistrito: string;
     nomDistrito: string;
+    foto: string;
 }

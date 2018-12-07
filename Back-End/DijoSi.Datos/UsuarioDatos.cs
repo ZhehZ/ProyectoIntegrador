@@ -74,6 +74,7 @@ namespace DijoSi.Datos
                 {
                     login.idUsuario = rd["idUsuario"].ToString();
                     login.loginUsuario = rd["loginUsuario"].ToString();
+                    login.nomUsuario = rd["nomUsuario"].ToString();
                     login.passUsuario = rd["passUsuario"].ToString();
                     login.verificaEmail = bool.Parse(rd["verificaEmail"].ToString());
                 }

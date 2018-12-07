@@ -24,16 +24,16 @@ export class RegistrarLocalComponent {
         };
     }
 
-    ngOnInit(): void{
+    ngOnInit(): void {
         this.listarDistritos();
     }
 
-    listarDistritos() : void{
+    listarDistritos(): void {
         this._localService.getDistritos()
-        .subscribe(
-        localReponse => this.distritos = localReponse
+            .subscribe(
+                localReponse => this.distritos = localReponse
 
-        )
+            )
     }
 
     registrar(): void {

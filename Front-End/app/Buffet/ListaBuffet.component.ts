@@ -17,18 +17,18 @@ export class ListaBuffetComponent {
     }
 
 
-    ngOnInit(): void{
+    ngOnInit(): void {
         this.listar();
     }
-    
-    listar() : void {
+
+    listar(): void {
         this._buffetService.getBuffets()
-        .subscribe(
-        buffetReponse => this.buffets = buffetReponse
-        )
+            .subscribe(
+                buffetReponse => this.buffets = buffetReponse
+            )
     }
 
-    eliminarBuffet(id: string) {
+    eliminarBuffet(id: String) {
         var response = confirm("Esta seguro que desea eliminar el registro?")
         if (response) {
             this._buffetService.deleteBuffet(id)
@@ -37,9 +37,12 @@ export class ListaBuffetComponent {
                     alert("Se Elimino Registro")
                     this.listar()
                 });
-
-
         }
+    }
+
+    SeleccionarBuffet(id : String){
+        this._buffetService.obtenerId(id);
+        this._router.navigate(['fotografos/']);
     }
 
 }

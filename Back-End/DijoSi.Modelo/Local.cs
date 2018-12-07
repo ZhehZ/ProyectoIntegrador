@@ -9,12 +9,13 @@ namespace DijoSi.Modelos
     public class Local
     {
 
-        public string idLocal { get; set; }
-        public string nomLocal { get; set; }
-        public string dirLocal { get; set; }
-        public string telfLocal { get; set; }
-        public int cantLocal { get; set; }
-        public string idDistrito { get; set; }
-        public string nomDistrito { get; set; }
+        public string idLocal       { get; set; }
+        public string nomLocal      { get; set; }
+        public string dirLocal      { get; set; }
+        public string telfLocal     { get; set; }
+        public int    cantLocal     { get; set; }
+        public string foto          { get; set; }
+        public string idDistrito    { get; set; }
+        public string nomDistrito   { get; set; }
     }
 }

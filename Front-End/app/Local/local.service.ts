@@ -7,6 +7,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import { error } from "util";
 import { Distrito } from "./distrito";
+import { BehaviorSubject } from "rxjs/BehaviorSubject"
 
 
 @Injectable()
@@ -27,6 +28,20 @@ export class LocalService {
     locales: Local[];
     distritos: Distrito[];
 
+    private fecha = new BehaviorSubject(new String);
+    currentDate = this.fecha.asObservable();
+
+    obtenerFecha(fecha: String) {
+        this.fecha.next(fecha);
+    }
+    
+    private idLocal = new BehaviorSubject(new String);
+    currentId = this.idLocal.asObservable();
+
+    obtenerId(id: String) {
+        this.idLocal.next(id);
+    }
+
     getLocales(): Observable<Local[]> {
         return this._http.get(this._getLocalesURL)
             .map((Response: Response) => <Local[]>Response.json())
@@ -43,7 +58,7 @@ export class LocalService {
     private handleError(error: Response) {
         return Observable.throw(error.json().error || "server error");
     }
-    deleteLocal(id: string): Observable<Local> {
+    deleteLocal(id: String): Observable<Local> {
         var url = this._deleteLocalURL + id
         var req = this._http.delete(url);
         return req.map((response: Response) => <Local>response.json()).
@@ -56,7 +71,8 @@ export class LocalService {
             cantLocal: local.cantLocal,
             idDistrito: local.idDistrito,
             dirLocal: local.dirLocal,
-            telfLocal: local.telfLocal
+            telfLocal: local.telfLocal,
+            foto: local.foto
         }
 
         var req = this._http.post(this._createLocalesURL, body);
@@ -69,7 +85,7 @@ export class LocalService {
         return Observable.throw(error.json().error || "Server Error");
     }
 
-    getLocal(id: string): Observable<Local> {
+    getLocal(id: String): Observable<Local> {
 
         let url = this._getLocalbyIDURL + id;
         var req = this._http.get(url);
@@ -84,8 +100,9 @@ export class LocalService {
             dirLocal: local.dirLocal,
             telfLocal: local.telfLocal,
             cantLocal: local.cantLocal,
-            idDistrito: local.idDistrito
-            
+            idDistrito: local.idDistrito,
+            foto: local.foto
+
         }
         var req = this._http.put(this._updateLocalURL, body);
         return req.map((response: Response) => <Local>response.json())

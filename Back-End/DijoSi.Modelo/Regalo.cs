@@ -10,7 +10,9 @@ namespace DijoSi.Modelos
     {
         public string idRegalo  { get; set; }
         public string desRegalo { get; set; }
-
+        public string foto      { get; set; }
+        public string idTipo    { get; set; }
+        public string desTipo   { get; set; }
 
     }
 }

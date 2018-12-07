@@ -6,4 +6,5 @@ export interface Buffet {
     preBuffet: number;
     idCategoria: string;
     nomCategoria: string;
+    foto: string;
 }

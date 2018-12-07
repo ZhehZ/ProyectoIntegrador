@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
     usuario: Usuario = null;
+    public idusu: String;
+    public nombre: String;
     constructor(private _userService: UsuarioService,
         private _router: Router) {
         this.usuario = <Usuario>{
@@ -33,10 +35,13 @@ export class LoginComponent {
                     alert("Cuenta no Activada");
                 }
                 else {
+                    this.nombre = this.usuario.nomUsuario
+                    this.idusu = this.usuario.idUsuario
+                    this._userService.changeMessage(this.nombre)
+                    this._userService.obtenerId(this.idusu);
                     this._router.navigate(['fotografos/']);
                 }
             });
-
 
     }
     Borrar(): void {

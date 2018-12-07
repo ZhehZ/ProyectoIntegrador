@@ -22,8 +22,8 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-                mensaje = "Fotografo registrado";
                 fotografoDatos.RegistrarFotografos(fotografo);
+                mensaje = "Fotografo registrado";
             }
             catch (Exception e)
             {
@@ -38,8 +38,8 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-                mensaje = "Fotografo actualizado";
                 fotografoDatos.ActualizarFotografos(fotografo);
+                mensaje = "Fotografo actualizado";
             }
             catch (Exception e)
             {
@@ -54,8 +54,8 @@ namespace DijoSi.Negocios
             string mensaje = "";
             try
             {
-                mensaje = "Fotografo Eliminado";
                 fotografoDatos.EliminarFotografos(id);
+                mensaje = "Fotografo Eliminado";
             }
             catch (Exception e)
             {

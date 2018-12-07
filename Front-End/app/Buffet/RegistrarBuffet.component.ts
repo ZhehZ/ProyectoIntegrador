@@ -18,7 +18,7 @@ export class RegistrarBuffetComponent {
     constructor(private _buffetService: BuffetService, private _router: Router) {
         this._buffetService.getCategorias()
             .subscribe(
-            localReponse => this.categorias = localReponse
+                localReponse => this.categorias = localReponse
 
             )
         this.buffet = <Buffet>{
@@ -26,7 +26,8 @@ export class RegistrarBuffetComponent {
             nomBuffet: "",
             desBuffet: "",
             preBuffet: 0.0,
-            idCategoria: ""
+            idCategoria: "",
+            foto: ""
         };
     }
 
@@ -49,6 +50,9 @@ export class RegistrarBuffetComponent {
         }
         else if (this.buffet.preBuffet == 0) {
             alert("Ingrese el precio del platillo")
+        }
+        else if (this.buffet.foto == "") {
+            alert("Ingrese una foto del platillo")
         }
         else {
             this._buffetService.createBuffet(this.buffet)

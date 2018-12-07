@@ -27,9 +27,11 @@ namespace DijoSi.Datos
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", local.idLocal);
             cmd.Parameters.AddWithValue("@nom", local.nomLocal);
+            cmd.Parameters.AddWithValue("@cant", local.cantLocal);
             cmd.Parameters.AddWithValue("@dir", local.dirLocal);
             cmd.Parameters.AddWithValue("@fONo", local.telfLocal);
             cmd.Parameters.AddWithValue("@iddis", local.idDistrito);
+            cmd.Parameters.AddWithValue("@foto", local.foto);
 
             cmd.ExecuteNonQuery();
 
@@ -48,6 +50,7 @@ namespace DijoSi.Datos
             cmd.Parameters.AddWithValue("@fono", local.telfLocal);
             cmd.Parameters.AddWithValue("@cant", local.cantLocal);
             cmd.Parameters.AddWithValue("@iddis", local.idDistrito);
+            cmd.Parameters.AddWithValue("@foto", local.foto);
 
             cmd.ExecuteNonQuery();
 
@@ -92,6 +95,7 @@ namespace DijoSi.Datos
                     local.cantLocal = (Int32)dr["cantLocal"];
                     local.idDistrito = dr["idDistrito"].ToString();
                     local.nomDistrito = dr["nomDistrito"].ToString();
+                    local.foto = dr["foto"].ToString();
                     locales.Add(local);
                 }
             }
@@ -101,6 +105,7 @@ namespace DijoSi.Datos
             return locales;
 
         }
+
         public List<Distrito> ListarDistritos()
         {
             con.Open();
